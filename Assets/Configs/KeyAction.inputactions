@@ -1,5 +1,5 @@
 {
-    "name": "Player",
+    "name": "KeyAction",
     "maps": [
         {
             "name": "Player",
@@ -81,6 +81,15 @@
                     "name": "Inventory",
                     "type": "Button",
                     "id": "1201fa41-59ba-4ae2-8593-92fea783d104",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Light",
+                    "type": "Button",
+                    "id": "64f2bc23-5a99-42b4-9cd5-1d67fbeaef53",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -179,7 +188,7 @@
                 {
                     "name": "",
                     "id": "47da83f1-b484-4ce1-a604-a634795a123f",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -327,6 +336,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d26966ad-e70a-4101-85e9-26463194c176",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Light",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b7be892a-2bbb-4f64-ab4b-e20ccf29aee5",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Light",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

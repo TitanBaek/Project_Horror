@@ -5,16 +5,22 @@ using UnityEngine.InputSystem;
 
 public class PlayerMove : MonoBehaviour
 {
+    private AudioSource audioSource;
     private Animator anim;
     private CharacterController controller;
     private Vector3 moveDir;
+    [SerializeField] private GameObject flashLight;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
+    [SerializeField] private AudioClip[] footStepSounds;
+    private int footStepIndex = 0;
+
     private bool isWalking = true;
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         controller = GetComponent<CharacterController>();
         anim = GetComponentInChildren<Animator>();
     }
@@ -29,9 +35,12 @@ public class PlayerMove : MonoBehaviour
         if(moveDir.magnitude == 0)
         {
             moveSpeed = Mathf.Lerp(moveSpeed, 0, 0.5f);
-        }else if (isWalking)
+            AudioSourceVolume(0);
+        }
+        else if (isWalking)
         {
             moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, 0.5f);
+            AudioSourceVolume(1);
         }
         else
         {
@@ -45,6 +54,28 @@ public class PlayerMove : MonoBehaviour
         controller.Move(transform.right * moveDir.x * moveSpeed * Time.deltaTime);
     }
 
+    private void AudioSourceVolume(int mode)
+    {
+        if(mode == 0)
+        {
+            audioSource.volume = Mathf.Lerp(audioSource.volume, 0, 0.05f);
+        } else if(mode == 1)
+        {
+            audioSource.volume = Mathf.Lerp(audioSource.volume, 0.25f, 0.1f);
+
+        }
+    }
+    private void PlayFootStep()
+    {
+        if (!audioSource.isPlaying)
+        { 
+        audioSource.clip = footStepSounds[footStepIndex++];
+        audioSource.Play();
+            if(footStepIndex >= 10)
+                footStepIndex = 0;
+        } 
+    }
+
     private void DoGravity()
     {
         // 내려오게..
@@ -52,5 +83,16 @@ public class PlayerMove : MonoBehaviour
     private void OnMove(InputValue value)
     {
         moveDir = new Vector3(value.Get<Vector2>().x,0,value.Get<Vector2>().y);
+    }
+
+    private void OnLight(InputValue value)
+    {
+        if (flashLight.active)
+        {
+            flashLight.SetActive(false);
+        } else
+        {
+            flashLight.SetActive(true);
+        }
     }
 }
