@@ -35,12 +35,12 @@ public class PlayerMove : MonoBehaviour
         if(moveDir.magnitude == 0)
         {
             moveSpeed = Mathf.Lerp(moveSpeed, 0, 0.5f);
-            AudioSourceVolume(0);
+            AudioSourceVolume(0);                               // 움직임이 멈추면 오디오 소스 볼륨을 줄이는 함수 출력
         }
         else if (isWalking)
         {
             moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, 0.5f);
-            AudioSourceVolume(1);
+            AudioSourceVolume(1);                               // 움직임이 있다면 오디오 소스 볼륨을 키우는 함수 출력
         }
         else
         {
@@ -49,11 +49,14 @@ public class PlayerMove : MonoBehaviour
         anim.SetFloat("xSpeed", moveDir.x, 0.5f, Time.deltaTime); 
         anim.SetFloat("ySpeed", moveDir.z, 0.5f, Time.deltaTime);
         anim.SetFloat("MoveSpeed", moveSpeed, 0.5f, Time.deltaTime);
-        //controller.Move(moveDir * moveSpeed * Time.deltaTime);
         controller.Move(transform.forward * moveDir.z * moveSpeed * Time.deltaTime);
         controller.Move(transform.right * moveDir.x * moveSpeed * Time.deltaTime);
     }
 
+    /// <summary>
+    /// 오디오 소스 볼륨 조절 함수(발걸음 함수에서 참조)
+    /// </summary>
+    /// <param name="mode"></param>
     private void AudioSourceVolume(int mode)
     {
         if(mode == 0)
@@ -65,13 +68,16 @@ public class PlayerMove : MonoBehaviour
 
         }
     }
-    private void PlayFootStep()
+    /// <summary>
+    /// 발걸음 소리 출력 함수
+    /// </summary>
+    private void PlayFootStep() 
     {
-        if (!audioSource.isPlaying)
+        if (!audioSource.isPlaying)                         // 현재 오디오가 재생중이 아니라면 재생
         { 
-        audioSource.clip = footStepSounds[footStepIndex++];
-        audioSource.Play();
-            if(footStepIndex >= 10)
+        audioSource.clip = footStepSounds[footStepIndex++]; // 오디오 재생과 인덱스를 증감 시켜줌
+        audioSource.Play();                                 // 오디오 재생
+            if(footStepIndex >= 10)                         // 인덱스 초기화 부분
                 footStepIndex = 0;
         } 
     }
