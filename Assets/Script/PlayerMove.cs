@@ -51,6 +51,7 @@ public class PlayerMove : MonoBehaviour
         {
             StepSounds = footStepRunSounds;
             moveSpeed = Mathf.Lerp(moveSpeed, runSpeed, 0.5f);
+            AudioSourceVolume(1);                               // 움직임이 있다면 오디오 소스 볼륨을 키우는 함수 출력
         }
         anim.SetFloat("xSpeed", moveDir.x * moveSpeed, 0.5f, Time.deltaTime); 
         anim.SetFloat("ySpeed", moveDir.z * moveSpeed, 0.5f, Time.deltaTime);
@@ -70,7 +71,7 @@ public class PlayerMove : MonoBehaviour
             audioSource.volume = Mathf.Lerp(audioSource.volume, 0, 0.05f);
         } else if(mode == 1)
         {
-            audioSource.volume = Mathf.Lerp(audioSource.volume, 0.20f, 0.1f);
+            audioSource.volume = Mathf.Lerp(audioSource.volume, 0.10f, 0.1f);
 
         }
     }
