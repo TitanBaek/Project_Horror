@@ -14,12 +14,16 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
     [SerializeField] private AudioClip[] footStepSounds;
+    [SerializeField] private AudioClip[] footStepRunSounds;
+    private AudioClip[] StepSounds;
+
     private int footStepIndex = 0;
 
     private bool isWalking = true;
 
     private void Awake()
     {
+        StepSounds = footStepSounds;
         audioSource = GetComponent<AudioSource>();
         controller = GetComponent<CharacterController>();
         anim = GetComponentInChildren<Animator>();
@@ -39,15 +43,17 @@ public class PlayerMove : MonoBehaviour
         }
         else if (isWalking)
         {
+            StepSounds = footStepSounds;
             moveSpeed = Mathf.Lerp(moveSpeed, walkSpeed, 0.5f);
             AudioSourceVolume(1);                               // 움직임이 있다면 오디오 소스 볼륨을 키우는 함수 출력
         }
         else
         {
+            StepSounds = footStepRunSounds;
             moveSpeed = Mathf.Lerp(moveSpeed, runSpeed, 0.5f);
         }
-        anim.SetFloat("xSpeed", moveDir.x, 0.5f, Time.deltaTime); 
-        anim.SetFloat("ySpeed", moveDir.z, 0.5f, Time.deltaTime);
+        anim.SetFloat("xSpeed", moveDir.x * moveSpeed, 0.5f, Time.deltaTime); 
+        anim.SetFloat("ySpeed", moveDir.z * moveSpeed, 0.5f, Time.deltaTime);
         anim.SetFloat("MoveSpeed", moveSpeed, 0.5f, Time.deltaTime);
         controller.Move(transform.forward * moveDir.z * moveSpeed * Time.deltaTime);
         controller.Move(transform.right * moveDir.x * moveSpeed * Time.deltaTime);
@@ -64,7 +70,7 @@ public class PlayerMove : MonoBehaviour
             audioSource.volume = Mathf.Lerp(audioSource.volume, 0, 0.05f);
         } else if(mode == 1)
         {
-            audioSource.volume = Mathf.Lerp(audioSource.volume, 0.25f, 0.1f);
+            audioSource.volume = Mathf.Lerp(audioSource.volume, 0.20f, 0.1f);
 
         }
     }
@@ -75,9 +81,9 @@ public class PlayerMove : MonoBehaviour
     {
         if (!audioSource.isPlaying)                         // 현재 오디오가 재생중이 아니라면 재생
         { 
-        audioSource.clip = footStepSounds[footStepIndex++]; // 오디오 재생과 인덱스를 증감 시켜줌
+        audioSource.clip = StepSounds[footStepIndex++]; // 오디오 재생과 인덱스를 증감 시켜줌
         audioSource.Play();                                 // 오디오 재생
-            if(footStepIndex >= 10)                         // 인덱스 초기화 부분
+            if(footStepIndex >= 3)                         // 인덱스 초기화 부분
                 footStepIndex = 0;
         } 
     }
@@ -85,6 +91,32 @@ public class PlayerMove : MonoBehaviour
     private void DoGravity()
     {
         // 내려오게..
+    }
+
+    private void OnAim(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            anim.SetBool("Aim", true);
+            anim.SetLayerWeight(1, 1);
+        } else
+        {
+            anim.SetLayerWeight(1, 0);
+            anim.SetBool("Aim", false);
+        }
+    }
+
+    private void OnRun(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            isWalking = false;
+            Debug.Log(isWalking);
+        } else
+        {
+            isWalking = true;
+            Debug.Log(isWalking);
+        }
     }
     private void OnMove(InputValue value)
     {
