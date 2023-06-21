@@ -13,7 +13,7 @@ public class PlayerCameraController : MonoBehaviour
     private float xRotation;
     private float yRotation;
     private Vector2 lookDelta;
-    private float rocationDistance = 30f;
+    private float rocationDistance = 20f;
 
     void Update()
     {

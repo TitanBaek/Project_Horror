@@ -30,7 +30,7 @@ public class UIManager : MonoBehaviour
         windowCanvas.gameObject.name = "WindowCanvas";
         windowCanvas.sortingOrder = 10;
 
-        // gameSceneCanvas.sortingOrder = 1;
+        //gameSceneCanvas.sortingOrder = 1;
 
         inGameCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
         inGameCanvas.gameObject.name = "InGameCanvas";

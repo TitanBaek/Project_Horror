@@ -14,9 +14,9 @@ public static class GameSetting
     {
         if (GameManager.Instance == null)
         {
-            //GameObject gameManager = new GameObject();
-            //gameManager.name = "GameManager";
-            //gameManager.AddComponent<GameManager>();
+            GameObject gameManager = new GameObject();
+            gameManager.name = "GameManager";
+            gameManager.AddComponent<GameManager>();
         }
     }
 }
