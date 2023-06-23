@@ -30,7 +30,7 @@ public class PlayerCameraController : MonoBehaviour
         Vector3 lookPoint = Camera.main.transform.position + Camera.main.transform.forward * lookDistance;  // 메인카메라의 LookDistance 의 앞을 lookPoint로 
         aimTarget.position = lookPoint;                   // aimTarget을 해당 위치에 배치
         lookPoint.y = transform.position.y;               // lookPoint의 y를 현재 플레이어의 y로 
-        transform.LookAt(lookPoint);                      // 플레이어가 해당 위치를 바라보게 끔 LookAt <- 이부분이 문제다 지금
+        transform.LookAt(lookPoint);                      // 플레이어가 해당 위치를 바라보게 끔 LookAt
     }
         
     private void Look()
