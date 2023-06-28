@@ -15,15 +15,17 @@ public class UIManager : MonoBehaviour
 
     private Canvas inGameCanvas;
 
+    public HurtScreenUI hurtScreenUI;
+
     private void Awake()
     {
         Init();
+        eventSystem = GameManager.Resource.Instantiate<EventSystem>("UI/EventSystem");
+        eventSystem.transform.SetParent(transform, false);
     }
 
     public void Init()
     {
-        eventSystem = GameManager.Resource.Instantiate<EventSystem>("UI/EventSystem");
-        eventSystem.transform.parent = transform;
 
         /*
         popUpCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
@@ -51,10 +53,13 @@ public class UIManager : MonoBehaviour
     }
     */
     public void ShowHurtScreen<T>(string path) where T : HurtScreenUI
-    { 
+    {
         T ui = GameManager.Resource.Load<T>(path);
-        ui.transform.SetParent(inGameCanvas.transform);
+        hurtScreenUI = GameManager.Resource.Instantiate(ui);
+        hurtScreenUI.transform.SetParent(inGameCanvas.transform, false);
     }
+
+
 
     /*
     public T ShowPopUpUI<T>(T popUpUI) where T : PopUpUI

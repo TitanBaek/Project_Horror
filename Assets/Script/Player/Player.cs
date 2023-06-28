@@ -1,6 +1,8 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : PlayerAudio, IHitable
 {
@@ -10,6 +12,8 @@ public class Player : PlayerAudio, IHitable
     [SerializeField] private GameObject[] hitPoints;
     [SerializeField] private AudioClip[] hitAudios;
     private PlayerMove playerMove;
+
+    [SerializeField] private UnityEvent onHit;
 
     private void Awake()
     {
@@ -40,6 +44,7 @@ public class Player : PlayerAudio, IHitable
         {
         }
         Debug.Log($"Player HP: {curHp}/{maxHp}");
+        CurrentHp();
     }
 
     public void StopMoving() 
@@ -60,6 +65,7 @@ public class Player : PlayerAudio, IHitable
         SwitchParticle(index);
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("Hit", true);
+        CameraShake.Instance.ShakeCamera(3f, .5f);
         yield return new WaitForSeconds(0.5f);
         SwitchParticle(index);
         anim.SetBool("Hit", false);
@@ -98,5 +104,12 @@ public class Player : PlayerAudio, IHitable
         GameManager.Scene.LoadScene("GameOverScene");
     }
 
+    // 현재 남은체력에 대한 수치값을 HurtScreenUI의 SetAlpha에 매개변수로 넘겨서 화면에 피칠갑되게 
+    public void CurrentHp()
+    {        
+        float hpPercent = 100 - ((curHp / maxHp) * 100);
+        Debug.Log($"100 - ({curHp}/{maxHp} * 100) = {hpPercent}");
+        GameManager.UI.hurtScreenUI.SetAlpha(hpPercent / 100);
+    }
 
 }
