@@ -6,7 +6,7 @@ public class Player : PlayerAudio, IHitable
 {
     private Animator anim;
     [SerializeField] int maxHp;
-    [SerializeField] private int curHp;
+    [SerializeField] private int curHp; 
     [SerializeField] private GameObject[] hitPoints;
     [SerializeField] private AudioClip[] hitAudios;
     private PlayerMove playerMove;

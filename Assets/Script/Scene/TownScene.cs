@@ -9,6 +9,8 @@ public class TownScene : BaseScene
     private void Awake()
     {
         a_source = GetComponents<AudioSource>();
+        GameManager.UI.Init();
+        GameManager.UI.ShowHurtScreen<HurtScreenUI>("UI/HurtScreenUI");
     }
 
     protected override IEnumerator LoadingRoutine()

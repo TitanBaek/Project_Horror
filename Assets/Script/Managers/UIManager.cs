@@ -17,6 +17,11 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
+        Init();
+    }
+
+    public void Init()
+    {
         eventSystem = GameManager.Resource.Instantiate<EventSystem>("UI/EventSystem");
         eventSystem.transform.parent = transform;
 
@@ -26,16 +31,31 @@ public class UIManager : MonoBehaviour
         popUpCanvas.sortingOrder = 100;
         popUpStack = new Stack<PopUpUI>();
         */
+        /*
         windowCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
         windowCanvas.gameObject.name = "WindowCanvas";
         windowCanvas.sortingOrder = 10;
-
+        */
         //gameSceneCanvas.sortingOrder = 1;
 
         inGameCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
         inGameCanvas.gameObject.name = "InGameCanvas";
-        inGameCanvas.sortingOrder = 0;
+        //inGameCanvas.transform.parent = transform;
+        inGameCanvas.sortingOrder = 100;
     }
+    /*   
+    public void ShowHurtScreen<T>(T hurtScreenUI) where T : HurtScreenUI
+    {
+        T ui = GameManager.Pool.GetUI<T>(hurtScreenUI);
+        ui.transform.SetParent(inGameCanvas.transform, false);
+    }
+    */
+    public void ShowHurtScreen<T>(string path) where T : HurtScreenUI
+    { 
+        T ui = GameManager.Resource.Load<T>(path);
+        ui.transform.SetParent(inGameCanvas.transform);
+    }
+
     /*
     public T ShowPopUpUI<T>(T popUpUI) where T : PopUpUI
     {
