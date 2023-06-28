@@ -14,6 +14,7 @@ public class ChaseState : StateBase<Judi>
     public override void Enter()
     {
         Debug.Log("추적 시작");
+        owner.SwitchStepSounds(1);  // 1을 보내서 뛰는 소리가 재생되게
         owner.Agent.speed = 0f;
         owner.Anim.SetBool("Chase", true);
     }
@@ -36,5 +37,21 @@ public class ChaseState : StateBase<Judi>
 
     public override void LateUpdate()
     {
+    }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(owner.transform.position, owner.AttackRange);
+
+        Vector3 rightDir = AngleToDir(owner.transform.eulerAngles.y + owner.AttackAngle * 0.5f); // 대상이 바라보고 있는 각도 + 앵글의 1/2
+        Vector3 leftDir = AngleToDir(owner.transform.eulerAngles.y - owner.AttackAngle * 0.5f);  // 대상이 바라보고 있는 각도 - 앵글의 1/2
+        Debug.DrawRay(owner.transform.position, rightDir * owner.AttackRange, Color.red);
+        Debug.DrawRay(owner.transform.position, leftDir * owner.AttackRange, Color.red);
+    }
+
+    private Vector3 AngleToDir(float angle)
+    {
+        float radian = angle * Mathf.Deg2Rad;
+        return new Vector3(Mathf.Sin(radian), 0, Mathf.Cos(radian));
     }
 }

@@ -10,7 +10,7 @@ public abstract class StateBase<T> where T : MonoBehaviour
     {
         this.owner = owner;
     }
-
+    
     public abstract void Setup();
     public abstract void Enter();
     public abstract void Update();

@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - PatrolPoint
   - Monster
+  - UI_Text
+  - AimPoint
   layers:
   - Default
   - TransparentFX

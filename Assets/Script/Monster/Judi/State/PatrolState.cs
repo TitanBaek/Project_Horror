@@ -17,6 +17,8 @@ public class PatrolState : StateBase<Judi>
     public override void Enter()
     {
         patrol_Index = 0;
+        owner.PlayerScreamSound(0);
+        owner.SwitchStepSounds(0);  // 0을 보내서 걷는 소리가 재생되게
         owner.Anim.SetBool("Patrol", true);
         curPatrolPoint = owner.PatrolPoints[patrol_Index];
         SetDestination();
