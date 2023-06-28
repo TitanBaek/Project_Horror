@@ -18,6 +18,7 @@ public class Judi : Monster
     private AudioClip[] StepSounds;
     [SerializeField] private AudioClip[] ScreamSounds;
     private int footStepIndex = 0;
+    Coroutine judi_Coroutine;
 
     private void Awake()
     {
@@ -99,17 +100,19 @@ public class Judi : Monster
         // 1이 넘어오면 코루틴 시작해서 비명 지르게 그 외의 값이 들어오면 비명 스톱
         if (mode == 1)
         {
-            StartCoroutine(PlayChaseScream());
+            judi_Coroutine = StartCoroutine(PlayChaseScream());
         } else
         {           
-            StopCoroutine(PlayChaseScream());
+            StopCoroutine(judi_Coroutine);
             audioSource[1].Stop();
+            Debug.Log("코루틴 멈춰");
         }
     }
 
     public IEnumerator PlayChaseScream()
     {
         audioSource[1].clip = ScreamSounds[0];
+        yield return new WaitForSeconds(0.5f);
         audioSource[1].Play();
         yield return new WaitForSeconds(audioSource[1].clip.length);
         while (true)

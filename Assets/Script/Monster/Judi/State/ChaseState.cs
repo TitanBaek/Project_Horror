@@ -14,6 +14,7 @@ public class ChaseState : StateBase<Judi>
     public override void Enter()
     {
         Debug.Log("추적 시작");
+        owner.PlayerScreamSound(1);
         owner.SwitchStepSounds(1);  // 1을 보내서 뛰는 소리가 재생되게
         owner.Agent.speed = 0f;
         owner.Anim.SetBool("Chase", true);
@@ -33,6 +34,7 @@ public class ChaseState : StateBase<Judi>
     public override void Exit()
     {
         owner.Anim.SetBool("Chase", false);
+        owner.PlayerScreamSound(0);
     }
 
     public override void LateUpdate()
