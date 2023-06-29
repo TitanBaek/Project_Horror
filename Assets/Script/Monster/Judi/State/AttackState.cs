@@ -7,7 +7,8 @@ public class AttackState : StateBase<Judi>
     private float coolTime;
     private bool isAttack = false;
     private float cosResult;
-
+    private Coroutine attack_coroutine;
+    private Coroutine doChase_coroutine;
     public AttackState(Judi owner) : base(owner)
     {
         cosResult = Mathf.Cos(owner.AttackAngle * 0.5f * Mathf.Deg2Rad);
@@ -48,11 +49,11 @@ public class AttackState : StateBase<Judi>
                 Debug.Log("¶§¸²");                
                 IHitable hitable = collider.GetComponent<IHitable>();
                 if(Vector3.Dot(owner.transform.forward, dirTarget) > cosResult)
-                    owner.StartCoroutine(DoAttackAnimation(hitable));
+                    attack_coroutine = owner.StartCoroutine(DoAttackAnimation(hitable));
 
             }
         }
-        owner.StartCoroutine(DoChase());
+        doChase_coroutine = owner.StartCoroutine(DoChase());
     }
 
     public IEnumerator DoAttackAnimation(IHitable hitable)
@@ -72,7 +73,12 @@ public class AttackState : StateBase<Judi>
 
     public override void Exit()
     {
+        owner.StopCoroutine(doChase_coroutine);
+        owner.StopCoroutine(attack_coroutine);
         owner.Anim.SetBool("Attack", false);
     }
 
+    public override void Transition()
+    {
+    }
 }

@@ -24,4 +24,8 @@ public class DieState : StateBase<Judi>
     public override void LateUpdate()
     {
     }
+
+    public override void Transition()
+    {
+    }
 }

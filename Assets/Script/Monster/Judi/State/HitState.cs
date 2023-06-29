@@ -25,4 +25,8 @@ public class HitState : StateBase<Judi>
     public override void LateUpdate()
     {
     }
+
+    public override void Transition()
+    {
+    }
 }

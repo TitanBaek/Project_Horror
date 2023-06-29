@@ -14,6 +14,7 @@ public abstract class StateBase<T> where T : MonoBehaviour
     public abstract void Setup();
     public abstract void Enter();
     public abstract void Update();
+    public abstract void Transition();
     public abstract void LateUpdate();
     public abstract void Exit();
 }

@@ -24,4 +24,8 @@ public class ReturnState : StateBase<Judi>
     public override void LateUpdate()
     {
     }
+
+    public override void Transition()
+    {
+    }
 }

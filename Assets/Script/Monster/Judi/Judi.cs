@@ -71,7 +71,6 @@ public class Judi : Monster
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, AttackRange);
 
-
         Vector3 rightDir = AngleToDir(transform.eulerAngles.y + AttackAngle * 0.5f); // 대상이 바라보고 있는 각도 + 앵글의 1/2
         Vector3 leftDir = AngleToDir(transform.eulerAngles.y - AttackAngle * 0.5f);  // 대상이 바라보고 있는 각도 - 앵글의 1/2
         Debug.DrawRay(transform.position, rightDir * AttackRange, Color.white);

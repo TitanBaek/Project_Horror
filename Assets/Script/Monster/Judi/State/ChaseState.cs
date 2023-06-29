@@ -56,4 +56,8 @@ public class ChaseState : StateBase<Judi>
         float radian = angle * Mathf.Deg2Rad;
         return new Vector3(Mathf.Sin(radian), 0, Mathf.Cos(radian));
     }
+
+    public override void Transition()
+    {
+    }
 }

@@ -96,6 +96,7 @@ public class Player : PlayerAudio, IHitable
 
     public void Dead()
     {
+        playerMove.CanMove = playerMove.MoveSpeed;
         anim.SetBool("Dying", true);
     }
 

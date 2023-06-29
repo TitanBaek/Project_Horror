@@ -49,4 +49,9 @@ public class PatrolState : StateBase<Judi>
     public override void LateUpdate()
     {
     }
+
+    public override void Transition()
+    {
+        // 패트롤 벗어나는 조건 구현
+    }
 }

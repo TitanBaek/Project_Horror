@@ -35,4 +35,8 @@ public class IdleState : StateBase<Judi>
     public override void LateUpdate()
     {
     }
+
+    public override void Transition()
+    {
+    }
 }
