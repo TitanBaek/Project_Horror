@@ -25,7 +25,7 @@ namespace MonsterState
             if (idleTime > 10)
             {
                 idleTime = 0;
-                owner.ChangeState(State.Patrol);
+                owner.ChangeState(M_State.Patrol);
             }
         }
 

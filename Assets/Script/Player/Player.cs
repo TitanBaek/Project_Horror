@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using PlayerState;
 
 public class Player : PlayerAudio, IHitable
 {
+    public enum State { Idle, Chase, Return, Attack, Patrol, Hit, Die, Size }
+
     [SerializeField] int maxHp;
     [SerializeField] private int curHp;
     [SerializeField] private GameObject[] hitPoints;

@@ -6,12 +6,12 @@ using UnityEngine.AI;
 using static UnityEngine.UI.GridLayoutGroup;
 using MonsterState;
 
-public enum State { Idle, Chase, Return, Attack, Patrol, Hit, Die, Size }
+public enum M_State { Idle, Chase, Return, Attack, Patrol, Hit, Die, Size }
 public class Judi : Monster
 {
     // 상태머신 구현
-    private State curState;
-    public State CurState { get { return curState; } }
+    private M_State curState;
+    public M_State CurState { get { return curState; } }
     private StateBase<Judi>[] states;
     [SerializeField] private AudioClip[] footStepSounds;
     [SerializeField] private AudioClip[] footStepRunSounds;
@@ -27,15 +27,15 @@ public class Judi : Monster
         anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
         playerPos = GameObject.FindGameObjectWithTag("Player").transform;
-        states = new StateBase<Judi>[(int)State.Size];
-        states[(int)State.Idle] = new IdleState(this);
-        states[(int)State.Chase] = new ChaseState(this);
-        states[(int)State.Return] = new ReturnState(this);
-        states[(int)State.Attack] = new AttackState(this);
-        states[(int)State.Patrol] = new PatrolState(this);
-        states[(int)State.Hit] = new HitState(this);
-        states[(int)State.Die] = new DieState(this);
-        curState = State.Idle;
+        states = new StateBase<Judi>[(int)M_State.Size];
+        states[(int)M_State.Idle] = new IdleState(this);
+        states[(int)M_State.Chase] = new ChaseState(this);
+        states[(int)M_State.Return] = new ReturnState(this);
+        states[(int)M_State.Attack] = new AttackState(this);
+        states[(int)M_State.Patrol] = new PatrolState(this);
+        states[(int)M_State.Hit] = new HitState(this);
+        states[(int)M_State.Die] = new DieState(this);
+        curState = M_State.Idle;
         StepSounds = footStepSounds;
     }
 
@@ -46,14 +46,14 @@ public class Judi : Monster
 
     private void Start()
     {
-        ChangeState(State.Idle);
+        ChangeState(M_State.Idle);
     }
     private void Update()
     {
         states[(int)curState].Update();         // 현재 상태에 대한 Update함수 호출
     }
 
-    public void ChangeState(State state)
+    public void ChangeState(M_State state)
     {
         Debug.Log(state);
         states[(int)curState].Exit();

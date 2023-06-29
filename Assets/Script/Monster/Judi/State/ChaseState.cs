@@ -26,11 +26,11 @@ namespace MonsterState
             owner.Agent.destination = owner.PlayerPos.position;
             if (Vector3.Distance(owner.PlayerPos.position, owner.transform.position) > owner.ChaseRange)        // 플레이어가 ChaseRange에서 벗어나면 Return(Patrol로 해도 될듯..)으로 상태 변경
             {
-                owner.ChangeState(State.Patrol);
+                owner.ChangeState(M_State.Patrol);
             }
             else if (Vector3.Distance(owner.PlayerPos.position, owner.transform.position) < owner.AttackRange)  // 플레이어가 공격범위에 들어오면 Attack으로 상태 변경
             {
-                owner.ChangeState(State.Attack);
+                owner.ChangeState(M_State.Attack);
             }
         }
         public override void Exit()

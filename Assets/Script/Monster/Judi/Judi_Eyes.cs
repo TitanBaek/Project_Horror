@@ -20,7 +20,7 @@ public class Judi_Eyes : MonoBehaviour
 
     private void Update()
     {
-        if (judi.CurState != State.Chase && judi.CurState != State.Attack)
+        if (judi.CurState != M_State.Chase && judi.CurState != M_State.Attack)
         {
             FindTarget();
         }
@@ -49,7 +49,7 @@ public class Judi_Eyes : MonoBehaviour
 
             Debug.Log("Ã£¾Ò´Ù");
             Debug.DrawRay(transform.position, dirTarget * distToTarget, Color.green);
-            judi.ChangeState(State.Chase);
+            judi.ChangeState(M_State.Chase);
         }
     }
 

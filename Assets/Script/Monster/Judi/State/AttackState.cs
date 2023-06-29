@@ -70,7 +70,7 @@ namespace MonsterState
         public IEnumerator DoChase()
         {
             yield return new WaitForSeconds(1f);
-            owner.ChangeState(State.Chase);
+            owner.ChangeState(M_State.Chase);
         }
 
         public override void Exit()
