@@ -4,18 +4,34 @@ using UnityEngine;
 
 namespace PlayerState
 {
-    public class DieState : MonoBehaviour
+    public class DieState : StateBase<Player>
     {
-        // Start is called before the first frame update
-        void Start()
+        public DieState(Player owner) : base(owner)
         {
-
         }
 
-        // Update is called once per frame
-        void Update()
+        public override void Enter()
         {
+        }
 
+        public override void Exit()
+        {
+        }
+
+        public override void LateUpdate()
+        {
+        }
+
+        public override void Setup()
+        {
+        }
+
+        public override void Transition()
+        {
+        }
+
+        public override void Update()
+        {
         }
     }
 }

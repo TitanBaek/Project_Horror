@@ -4,6 +4,7 @@ using System.Net;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.UI.GridLayoutGroup;
+using MonsterState;
 
 public enum State { Idle, Chase, Return, Attack, Patrol, Hit, Die, Size }
 public class Judi : Monster

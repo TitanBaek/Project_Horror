@@ -6,18 +6,23 @@ using UnityEngine.Events;
 
 public class Player : PlayerAudio, IHitable
 {
-    private Animator anim;
     [SerializeField] int maxHp;
-    [SerializeField] private int curHp; 
+    [SerializeField] private int curHp;
     [SerializeField] private GameObject[] hitPoints;
     [SerializeField] private AudioClip[] hitAudios;
+
+    private Animator anim;
     private PlayerMove playerMove;
+    private PlayerAttack playerAttack;
+
+    private Coroutine hit_Coroutine;
 
     [SerializeField] private UnityEvent onHit;
 
     private void Awake()
     {
         curHp = maxHp;
+        playerAttack = GetComponent<PlayerAttack>();
         audioSource = GetComponents<AudioSource>();
         playerMove = GetComponent<PlayerMove>();
         anim = GetComponent<Animator>();
@@ -25,12 +30,12 @@ public class Player : PlayerAudio, IHitable
      
     private void OnDisable()
     {
-        StopCoroutine(Hit());
+        StopCoroutine(hit_Coroutine);
     }
     public void Stun()
     {
         StopMoving();
-        StartCoroutine(Hit());
+        hit_Coroutine = StartCoroutine(Hit());
     }
 
     public void TakeHit(int dmg) 
@@ -66,7 +71,7 @@ public class Player : PlayerAudio, IHitable
         yield return new WaitForSeconds(0.5f);
         anim.SetBool("Hit", true);
         CameraShake.Instance.ShakeCamera(3f, .5f);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         SwitchParticle(index);
         anim.SetBool("Hit", false);
         StartMoving();

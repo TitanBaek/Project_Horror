@@ -2,30 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReturnState : StateBase<Judi>
+namespace MonsterState
 {
-    public ReturnState(Judi owner) : base(owner)
+    public class ReturnState : StateBase<Judi>
     {
-    }
-    public override void Setup()
-    {
-    }
+        public ReturnState(Judi owner) : base(owner)
+        {
+        }
+        public override void Setup()
+        {
+        }
 
-    public override void Enter()
-    {
-    }
-    public override void Update()
-    {
-    }
-    public override void Exit()
-    {
-    }
+        public override void Enter()
+        {
+        }
+        public override void Update()
+        {
+        }
+        public override void Exit()
+        {
+        }
 
-    public override void LateUpdate()
-    {
-    }
+        public override void LateUpdate()
+        {
+        }
 
-    public override void Transition()
-    {
+        public override void Transition()
+        {
+        }
     }
 }
