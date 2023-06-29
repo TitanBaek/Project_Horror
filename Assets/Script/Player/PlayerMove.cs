@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,14 +8,15 @@ public class PlayerMove : PlayerAudio
 {
     [SerializeField] private AudioClip[] footStepSounds;
     [SerializeField] private AudioClip[] footStepRunSounds;
-    [SerializeField] private GameObject aimPoint;
     private Animator anim;
     private CharacterController controller;
     private Vector3 moveDir;
     [SerializeField] private GameObject flashLight;
+    [SerializeField] private GameObject FlashLight_Particle;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
+
 
     private AudioClip[] StepSounds;
     private int footStepIndex = 0;
@@ -22,7 +24,6 @@ public class PlayerMove : PlayerAudio
     private float canMove = 0;
     public float CanMove { get { return canMove; } set { canMove = value; }  }
     private bool isWalking = true;
-    private bool isAim = false;
 
     public float MoveSpeed { get { return moveSpeed; } }
 
@@ -87,37 +88,18 @@ public class PlayerMove : PlayerAudio
         // 내려오게..
     }
 
-    private void OnAim(InputValue value)
-    {
-        if (value.isPressed)
-        {
-            aimPoint.SetActive(true);   
-            anim.SetBool("Aim", true);
-            anim.SetLayerWeight(1, 1);
-            isAim = true;
-        } else
-        {
-            aimPoint.SetActive(false);
-            anim.SetLayerWeight(1, 0);
-            anim.SetBool("Aim", false);
-            isAim = false;
-        }
-    }
 
     private void OnRun(InputValue value)
     {
-        if (!isAim)
+        if (value.isPressed)
         {
-            if (value.isPressed)
-            {
-                isWalking = false;
-                Debug.Log(isWalking);
-            }
-            else
-            {
-                isWalking = true;
-                Debug.Log(isWalking);
-            }
+            isWalking = false;
+            Debug.Log(isWalking);
+        }
+        else
+        {
+            isWalking = true;
+            Debug.Log(isWalking);
         }
     }
     private void OnMove(InputValue value)
@@ -132,11 +114,13 @@ public class PlayerMove : PlayerAudio
             return;
         }
         audioSource[1].Play();
-        if (flashLight.active)
+        if (flashLight.activeSelf)
         {
+            FlashLight_Particle.SetActive(false);
             flashLight.SetActive(false);
         } else
         {
+            FlashLight_Particle.SetActive(true);
             flashLight.SetActive(true);
         }
     }

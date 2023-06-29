@@ -16,6 +16,7 @@ namespace MonsterState
         public override void Enter()
         {
             Debug.Log("추적 시작");
+            //owner.Player_State.SpottedByEnemy(); // 플레이어 추격중으로 상태 변경
             owner.PlayerScreamSound(1);
             owner.SwitchStepSounds(1);  // 1을 보내서 뛰는 소리가 재생되게
             owner.Agent.speed = 0f;

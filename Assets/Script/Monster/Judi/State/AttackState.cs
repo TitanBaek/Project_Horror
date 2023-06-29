@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace MonsterState
 {
@@ -9,8 +10,7 @@ namespace MonsterState
         private float coolTime;
         private bool isAttack = false;
         private float cosResult;
-        private Coroutine attack_coroutine;
-        private Coroutine doChase_coroutine;
+        private bool attackFinish;
         public AttackState(Judi owner) : base(owner)
         {
             cosResult = Mathf.Cos(owner.AttackAngle * 0.5f * Mathf.Deg2Rad);
@@ -23,6 +23,7 @@ namespace MonsterState
         public override void Enter()
         {
             owner.Agent.speed = 1;
+            attackFinish = false;
             Attack();
         }
 
@@ -51,11 +52,10 @@ namespace MonsterState
                     Debug.Log("때림");
                     IHitable hitable = collider.GetComponent<IHitable>();
                     if (Vector3.Dot(owner.transform.forward, dirTarget) > cosResult)
-                        attack_coroutine = owner.StartCoroutine(DoAttackAnimation(hitable));
-
+                        owner.Attack_coroutine = owner.StartCoroutine(DoAttackAnimation(hitable));
                 }
             }
-            doChase_coroutine = owner.StartCoroutine(DoChase());
+            owner.DoChase_Coroutine = owner.StartCoroutine(DoChase());
         }
 
         public IEnumerator DoAttackAnimation(IHitable hitable)
@@ -64,24 +64,26 @@ namespace MonsterState
             owner.Anim.SetBool("Attack", true);
             yield return new WaitForSeconds(1f);
             owner.Anim.SetBool("Attack", false);
-            hitable?.TakeHit(15);                       // 캐릭터 대미지 주기와 움직임 가능하게
         }
 
         public IEnumerator DoChase()
         {
             yield return new WaitForSeconds(1f);
-            owner.ChangeState(M_State.Chase);
+            attackFinish = true;
         }
 
         public override void Exit()
         {
-            owner.StopCoroutine(doChase_coroutine);
-            owner.StopCoroutine(attack_coroutine);
-            owner.Anim.SetBool("Attack", false);
+            owner.StopCoroutine(owner.DoChase_Coroutine);
+            owner.StopCoroutine(owner.Attack_coroutine);
         }
 
         public override void Transition()
         {
+            if (attackFinish)
+            {
+                owner.ChangeState(M_State.Chase);
+            }
         }
     }
 

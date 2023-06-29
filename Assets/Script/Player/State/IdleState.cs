@@ -2,24 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MonsterState
-{
-    public class DieState : StateBase<Judi>
+namespace PlayerState {
+    public class IdleState : StateBase<Player>
     {
-        public DieState(Judi owner) : base(owner)
-        {
-        }
-        public override void Setup()
-        {
-        }
+        public IdleState(Player owner) : base(owner) { }
 
         public override void Enter()
         {
-            owner.Anim.SetBool("Die", true);
         }
-        public override void Update()
-        {
-        }
+
         public override void Exit()
         {
         }
@@ -28,8 +19,17 @@ namespace MonsterState
         {
         }
 
+        public override void Setup()
+        {
+        }
+
         public override void Transition()
         {
         }
+
+        public override void Update()
+        {
+        }
     }
+
 }

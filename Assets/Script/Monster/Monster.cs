@@ -26,6 +26,11 @@ public abstract class Monster : MonoBehaviour
     [SerializeField] protected float attackCoolTime;
     [SerializeField] protected float attackAngle;
 
+    public virtual void Awake()
+    {
+        curHp = maxHp;
+        Debug.Log($"이 몬스터의 체력은 {curHp}/{maxHp} 입니다.");
+    }
     public Transform[] PatrolPoints { get { return patrolPoints; } }
     public int MaxHp { get { return maxHp; } }
     public int CurHp { get { return curHp; } }

@@ -7,26 +7,44 @@ using static UnityEngine.UI.GridLayoutGroup;
 using MonsterState;
 
 public enum M_State { Idle, Chase, Return, Attack, Patrol, Hit, Die, Size }
-public class Judi : Monster
+public class Judi : Monster,IHitable
 {
+    private GameObject player;
+    public GameObject Player { get { return player; } }
+    private Player player_State;
+    public Player Player_State { get { return player_State; } }
+
     // 상태머신 구현
     private M_State curState;
     public M_State CurState { get { return curState; } }
     private StateBase<Judi>[] states;
+
+    // 몬스터 오디오 클립 및 소스
     [SerializeField] private AudioClip[] footStepSounds;
     [SerializeField] private AudioClip[] footStepRunSounds;
     private AudioSource[] audioSource;
     private AudioClip[] StepSounds;
     [SerializeField] private AudioClip[] ScreamSounds;
     private int footStepIndex = 0;
-    Coroutine judi_Coroutine;
 
-    private void Awake()
+    // 몬스터 코루틴 
+    Coroutine judi_Coroutine;
+    private Coroutine attack_coroutine;
+    public Coroutine Attack_coroutine { get { return attack_coroutine; } set { attack_coroutine = value; } }
+    private Coroutine doChase_coroutine;
+    public Coroutine DoChase_Coroutine { get { return doChase_coroutine; } set { doChase_coroutine = value; } }
+
+    public override void Awake()
     {
+        base.Awake();
         audioSource = GetComponents<AudioSource>();
         anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerPos = player.transform;
+        player_State = player.GetComponent<Player>();
+
         states = new StateBase<Judi>[(int)M_State.Size];
         states[(int)M_State.Idle] = new IdleState(this);
         states[(int)M_State.Chase] = new ChaseState(this);
@@ -51,6 +69,7 @@ public class Judi : Monster
     private void Update()
     {
         states[(int)curState].Update();         // 현재 상태에 대한 Update함수 호출
+        states[(int)curState].Transition();
     }
 
     public void ChangeState(M_State state)
@@ -131,5 +150,21 @@ public class Judi : Monster
     {
         // 넘어온 값이 1이면 달리기 사운드, 1이 아니면 걷는 사운드로 
         StepSounds = mode == 1 ? footStepRunSounds : footStepSounds; 
+    }
+
+    public void Stun()
+    {
+        Debug.Log("몬스터가 맞았다.");
+    }
+
+    public void TakeHit(RaycastHit hit, int dmg)
+    {
+        curHp -= dmg;
+        if(curHp <= 0)
+        {
+            curHp = 0;
+            ChangeState(M_State.Die);
+        }
+        Debug.Log($"공격 당하고 난 후의 몬스터의 체력 {curHp}/{maxHp}");
     }
 }

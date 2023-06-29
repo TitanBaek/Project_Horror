@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IHitable
 {
     public abstract void Stun();
-    public abstract void TakeHit(int dmg);
+    public abstract void TakeHit(RaycastHit hit,int dmg);
 }

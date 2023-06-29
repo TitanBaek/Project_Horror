@@ -9,6 +9,8 @@ TagManager:
   - Monster
   - UI_Text
   - AimPoint
+  - TPS_Cam
+  - Aim_Cam
   layers:
   - Default
   - TransparentFX

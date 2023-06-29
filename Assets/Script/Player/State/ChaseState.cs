@@ -13,6 +13,7 @@ namespace PlayerState
 
         public override void Enter()
         {
+            Debug.Log("플레이어는 지금 추격 받는 중!");
         }
 
         public override void Exit()
