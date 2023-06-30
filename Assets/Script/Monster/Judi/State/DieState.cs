@@ -17,6 +17,11 @@ namespace MonsterState
         {
             owner.Anim.SetBool("Die", true);
             owner.Agent.speed = 0;
+            owner.Eyes.gameObject.SetActive(false);
+            foreach(AudioSource audioSource in owner.AudioSource)
+            {
+                audioSource.Stop();// ¸÷ Á×¾úÀ¸´Ï ¸ðµç ¼Ò¸® Á×ÀÌ±â ...
+            }
         }
         public override void Update()
         {

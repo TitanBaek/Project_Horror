@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// 몬스터 상태머신 Hit,Idle 따로 구분해서 빼버리고 
+// Hit 애니메이션은 상체만 적용되게 바꾸자 
+// 즉 Chase 도중 서브 상태 머신이 Hit로 바뀌게 해서 상체만 대미지를 받고 주춤하게 만들어주는 방식으로 ..
+// Player 도 그런식으로 수정해줘야할까..?
 namespace MonsterState
 {
     public class HitState : StateBase<Judi>
     {
         Coroutine hitCoroutine;
         bool hitFinished;
+        float prevSpeed;
 
         public HitState(Judi owner) : base(owner)
         {
@@ -18,6 +23,8 @@ namespace MonsterState
 
         public override void Enter()
         {
+            prevSpeed = owner.Agent.speed;
+            owner.Agent.speed = 0;
             owner.Anim.SetTrigger("Hit");            
         }
         public override void Update()
@@ -35,7 +42,13 @@ namespace MonsterState
         {
             if (hitFinished)
             {
-                owner.ChangeState(M_State.Chase);
+                owner.Agent.speed = prevSpeed;
+                owner.ChangeState(M_SubState.Idle);
+                if(owner.CurState != M_State.Chase)
+                {
+                    // 현재 몬스터 상태가 추적중이 아니라면 추적중으로 바꿔주자 
+                    owner.ChangeState(M_State.Chase);
+                }
             }
         }
 

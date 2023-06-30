@@ -6,26 +6,35 @@ using UnityEngine.AI;
 using static UnityEngine.UI.GridLayoutGroup;
 using MonsterState;
 
-public enum M_State { Idle, Chase, Return, Attack, Patrol, Hit, Die, Size }
+public enum M_State { Chase, Return, Attack, Patrol, Hit, Die, Size }
+public enum M_SubState { Idle ,Hit, Size }
 public class Judi : Monster,IHitable
 {
+    private Judi_Eyes eyes;
+    public Judi_Eyes Eyes { get { return eyes; } set { eyes = value; } }
+
     private GameObject player;
     public GameObject Player { get { return player; } }
     private Player player_State;
     public Player Player_State { get { return player_State; } }
 
+
+
     // 상태머신 구현
     private M_State curState;
     public M_State CurState { get { return curState; } }
     // 상태머신 구현
-    private M_State prevState;
-    public M_State PrevState { get { return prevState; } }
+    private M_SubState curSubState;
+    public M_SubState CurSubState { get { return curSubState; } }
+
     private StateBase<Judi>[] states;
+    private StateBase<Judi>[] sub_states;
 
     // 몬스터 오디오 클립 및 소스
     [SerializeField] private AudioClip[] footStepSounds;
     [SerializeField] private AudioClip[] footStepRunSounds;
     private AudioSource[] audioSource;
+    public AudioSource[] AudioSource { get { return audioSource; } set { audioSource = value; } }
     private AudioClip[] StepSounds;
     [SerializeField] private AudioClip[] ScreamSounds;
     private int footStepIndex = 0;
@@ -37,6 +46,8 @@ public class Judi : Monster,IHitable
     private Coroutine doChase_coroutine;
     public Coroutine DoChase_Coroutine { get { return doChase_coroutine; } set { doChase_coroutine = value; } }
 
+
+
     public override void Awake()
     {
         base.Awake();
@@ -44,19 +55,26 @@ public class Judi : Monster,IHitable
         anim = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
+        eyes = GetComponentInChildren<Judi_Eyes>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerPos = player.transform;
         player_State = player.GetComponent<Player>();
 
         states = new StateBase<Judi>[(int)M_State.Size];
-        states[(int)M_State.Idle] = new IdleState(this);
         states[(int)M_State.Chase] = new ChaseState(this);
         states[(int)M_State.Return] = new ReturnState(this);
         states[(int)M_State.Attack] = new AttackState(this);
         states[(int)M_State.Patrol] = new PatrolState(this);
         states[(int)M_State.Hit] = new HitState(this);
         states[(int)M_State.Die] = new DieState(this);
-        curState = M_State.Idle;
+        curState = M_State.Patrol;
+
+        
+        sub_states = new StateBase<Judi>[(int)M_SubState.Size];
+        sub_states[(int)M_SubState.Idle] = new IdleState(this);
+        sub_states[(int)M_SubState.Hit] = new HitState(this);
+        curSubState = M_SubState.Idle;
+
         StepSounds = footStepSounds;
     }
 
@@ -67,22 +85,43 @@ public class Judi : Monster,IHitable
 
     private void Start()
     {
-        ChangeState(M_State.Idle);
+        ChangeState(M_State.Patrol);
     }
     private void Update()
     {
         states[(int)curState].Update();         // 현재 상태에 대한 Update함수 호출
         states[(int)curState].Transition();
+
+        sub_states[(int)curSubState].Update();         // 현재 상태에 대한 Update함수 호출
+        sub_states[(int)curSubState].Transition();
+    }
+    private void LateUpdate()
+    {
+        if (curState == M_State.Die)
+            return;                     // 죽으면 머리 못돌리게
+        HeadBanging();
+    }
+
+    private void HeadBanging()
+    {
+        MonsterHead.transform.localRotation = Quaternion.Euler(Random.Range(-40, 40), Random.Range(-40, 40), Random.Range(-40, 40));
     }
 
     public void ChangeState(M_State state)
     {
         Debug.Log(state);
-        prevState = curState;
         states[(int)curState].Exit();
         curState = state;
         states[(int)curState].Setup();
         states[(int)curState].Enter();
+    }
+    public void ChangeState(M_SubState state)
+    {
+        Debug.Log(state);
+        sub_states[(int)curSubState].Exit();
+        curSubState = state;
+        sub_states[(int)curSubState].Setup();
+        sub_states[(int)curSubState].Enter();
     }
 
     public void ScreamDone()
@@ -159,7 +198,7 @@ public class Judi : Monster,IHitable
     public void Stun()
     {
         Debug.Log("몬스터가 맞았다.");
-        ChangeState(M_State.Hit);
+        ChangeState(M_SubState.Hit);
     }
 
     public void TakeHit(RaycastHit hit, int dmg)

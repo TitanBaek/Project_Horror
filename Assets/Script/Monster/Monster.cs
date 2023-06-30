@@ -9,7 +9,7 @@ public abstract class Monster : MonoBehaviour
     // 패트롤 상태 구현
     [SerializeField] private Transform[] patrolPoints;
 
-    [SerializeField] private GameObject MonsterHead;
+    [SerializeField] protected GameObject MonsterHead;
     [SerializeField] protected int maxHp;
     [SerializeField] protected int curHp;
     [SerializeField] protected int dmg;
@@ -42,8 +42,5 @@ public abstract class Monster : MonoBehaviour
     public float AttackRange { get { return attackRange; } set { attackRange = value; } } 
     public float AttackCoolTime { get {  return attackCoolTime; } set {  attackCoolTime = value; } }
     public float AttackAngle { get { return attackAngle; } }
-    private void LateUpdate()
-    {
-        MonsterHead.transform.localRotation = Quaternion.Euler(Random.Range(-40, 40), Random.Range(-40, 40), Random.Range(-40, 40));
-    }
+
 }
