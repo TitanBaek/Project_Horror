@@ -13,11 +13,14 @@ public class Pistol : Weapon
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, maxDistance))
         {
-            Debug.Log("∏ÛΩ∫≈Õ ∏¬√„");
-            IHitable hitable;
+            Debug.Log($"{hit.collider.gameObject.name} ∏¶ ∏¬√„");
+            IHitable hitable;            
             hitable = hit.transform.GetComponent<IHitable>();
             hitable?.Stun();
             hitable?.TakeHit(hit, 15);
+
+
+
         }
     }
 }

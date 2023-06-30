@@ -16,7 +16,6 @@ public class ResourceManager : MonoBehaviour
         resources.Add(key, resource);
         return resource;
     }
-
     public T Instantiate<T>(T original, Vector3 position, Quaternion rotation, Transform parent, bool pooling = false) where T : Object
     {
         if (pooling)

@@ -17,6 +17,9 @@ public class Judi : Monster,IHitable
     // 상태머신 구현
     private M_State curState;
     public M_State CurState { get { return curState; } }
+    // 상태머신 구현
+    private M_State prevState;
+    public M_State PrevState { get { return prevState; } }
     private StateBase<Judi>[] states;
 
     // 몬스터 오디오 클립 및 소스
@@ -75,6 +78,7 @@ public class Judi : Monster,IHitable
     public void ChangeState(M_State state)
     {
         Debug.Log(state);
+        prevState = curState;
         states[(int)curState].Exit();
         curState = state;
         states[(int)curState].Setup();
@@ -155,12 +159,27 @@ public class Judi : Monster,IHitable
     public void Stun()
     {
         Debug.Log("몬스터가 맞았다.");
+        ChangeState(M_State.Hit);
     }
 
     public void TakeHit(RaycastHit hit, int dmg)
     {
         curHp -= dmg;
         if(curHp <= 0)
+        {
+            curHp = 0;
+            ChangeState(M_State.Die);
+        }
+        Debug.Log($"공격 당하고 난 후의 몬스터의 체력 {curHp}/{maxHp}");
+        ParticleSystem effect = GameManager.Resource.Instantiate<ParticleSystem>("Effect/MonsterHit", hit.point, Quaternion.LookRotation(hit.normal), true);
+        effect.transform.parent = hit.transform.transform;
+        GameManager.Resource.Destroy(effect.gameObject, 0.3f);
+    }
+
+    public void TakeHit(int dmg)
+    {
+        curHp -= dmg;
+        if (curHp <= 0)
         {
             curHp = 0;
             ChangeState(M_State.Die);

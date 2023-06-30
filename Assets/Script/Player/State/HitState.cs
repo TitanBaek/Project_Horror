@@ -51,17 +51,16 @@ namespace PlayerState
             yield return new WaitForSeconds(0.3f);
             SwitchParticle(index);
             yield return new WaitForSeconds(0.3f);
-            owner.Anim.SetBool("Hit", true);
+            owner.Anim.SetTrigger("Hit");
             CameraShake.Instance.ShakeCamera(3f, .5f);
             yield return new WaitForSeconds(0.15f);
             SwitchParticle(index);
-            owner.Anim.SetBool("Hit", false);
             Debug.Log("셋불해주세요");
             owner.StartMoving();
             yield return new WaitForSeconds(0.3f);
             Debug.Log("피니시드 트루로 해주세요");
             hit_Finished = true;
-            //owner.TakeHit(15);
+            owner.TakeHit(15);
         }
 
         public void PlayHitSound() // 히트 상태에서 실행되게

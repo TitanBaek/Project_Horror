@@ -12,9 +12,13 @@ public class PlayerAttacker : MonoBehaviour
     [SerializeField] private GameObject tpsCam;
     [SerializeField] private GameObject aimCam;
     [SerializeField] private GameObject aimPoint;
+    [SerializeField] private Transform muzzleSetTransform;
+    private GameObject muzzleEffect;
+    private AudioSource[] audioSource;              // 조준소리 , 발사음과 탄피 떨어지는 소리를 재생 시킬 오디오 소스 배열(2개)
     private Animator anim;
     private bool reloading;
     private bool isAim = false;
+
     // 주준중일때 moveSpeed 깎아주는 거 구현해야함
 
 
@@ -22,12 +26,19 @@ public class PlayerAttacker : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        audioSource = weaponHolder.GetComponents<AudioSource>();
     }
 
     public void Fire()
     {
         weaponHolder.Fire();
-        anim.SetTrigger("Fire");
+        anim.SetTrigger("Fire"); 
+        int randNum = Random.Range(1, 5);
+        audioSource[0].clip = GameManager.Resource.Load<AudioClip>($"Sound/Beretta92_Shot00{randNum}");
+        audioSource[0].Play();
+
+        muzzleEffect = GameManager.Resource.Instantiate<GameObject>("Effect/MuzzleFlash", muzzleSetTransform.position, Quaternion.identity, true);
+        GameManager.Resource.Destroy(muzzleEffect, 0.3f);
     }
 
     private void OnFire(InputValue value)
@@ -50,6 +61,11 @@ public class PlayerAttacker : MonoBehaviour
     {
         if (value.isPressed)
         {
+            int randNum = Random.Range(1, 3);
+            audioSource[0].clip = GameManager.Resource.Load<AudioClip>($"Sound/Beretta92_Aim_00{randNum}");
+            if (!audioSource[0].isPlaying)
+                audioSource[0].Play();
+
             tpsCam.SetActive(false);
             aimCam.SetActive(true);
             aimPoint.SetActive(true);
@@ -59,6 +75,12 @@ public class PlayerAttacker : MonoBehaviour
         }
         else
         {
+            /*
+            int randNum = Random.Range(1, 5);
+            audioSource[0].clip = GameManager.Resource.Load<AudioClip>($"Sound/Beretta92_Handling00{randNum}");
+            if (!audioSource[0].isPlaying)
+                audioSource[0].Play();
+            */
             aimCam.SetActive(false);
             tpsCam.SetActive(true);
             aimPoint.SetActive(false);

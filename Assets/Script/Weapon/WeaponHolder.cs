@@ -8,7 +8,6 @@ public class WeaponHolder : MonoBehaviour
     [SerializeField] Weapon weapon;
 
     List<Weapon> weaponList = new List<Weapon>();
-
     public void Fire()
     {
         weapon.Attack();

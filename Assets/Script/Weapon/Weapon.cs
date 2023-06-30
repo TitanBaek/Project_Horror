@@ -6,6 +6,7 @@ public class Weapon : MonoBehaviour
 {
     [SerializeField] protected float maxDistance;
     [SerializeField] protected float damage;
+    [SerializeField] protected AudioClip[] weaponSoundClips;
 
     public virtual void Attack()
     {

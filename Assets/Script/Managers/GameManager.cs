@@ -56,5 +56,6 @@ public static SceneManager Scene { get { return sceneManager; } }
         sceneObj.name = "SceneManager";
         sceneObj.transform.parent = transform;
         sceneManager = sceneObj.AddComponent<SceneManager>();
+
     }
 }

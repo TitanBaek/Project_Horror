@@ -16,6 +16,7 @@ namespace MonsterState
         public override void Enter()
         {
             owner.Anim.SetBool("Die", true);
+            owner.Agent.speed = 0;
         }
         public override void Update()
         {

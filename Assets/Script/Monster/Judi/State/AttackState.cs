@@ -61,9 +61,9 @@ namespace MonsterState
         public IEnumerator DoAttackAnimation(IHitable hitable)
         {
             hitable?.Stun();                            // Ä³¸¯ÅÍ ¿òÁ÷ÀÓ ¸ØÃã
-            owner.Anim.SetBool("Attack", true);
+            owner.Anim.SetTrigger("Attack");
             yield return new WaitForSeconds(1f);
-            owner.Anim.SetBool("Attack", false);
+            owner.Anim.SetTrigger("Attack");
         }
 
         public IEnumerator DoChase()

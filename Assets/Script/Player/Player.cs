@@ -106,6 +106,20 @@ public class Player : PlayerAudio, IHitable
         ChangeState(P_State.Hit);// Hit 상태로 변경
     }
 
+    public void TakeHit(int dmg)
+    {
+        curHp -= dmg;
+        if (curHp <= 0)
+        {
+            curHp = 0;
+            Dead();
+        }
+        else
+        {
+        }
+        Debug.Log($"Player HP: {curHp}/{maxHp}");
+        CurrentHp();
+    }
     public void TakeHit(RaycastHit hit, int dmg) // 히트 상태에서 실행되게
     {
         curHp -= dmg;
@@ -153,5 +167,6 @@ public class Player : PlayerAudio, IHitable
         Debug.Log($"100 - ({curHp}/{maxHp} * 100) = {hpPercent}");
         GameManager.UI.hurtScreenUI.SetAlpha(hpPercent / 100);
     }
+
 
 }
