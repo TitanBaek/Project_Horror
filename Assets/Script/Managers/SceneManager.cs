@@ -58,7 +58,6 @@ public class SceneManager : MonoBehaviour
             yield return null;
         }
 
-
         Time.timeScale = 1f;
         loadingUI.FadeIn();
         yield return new WaitForSeconds(0.7f);
