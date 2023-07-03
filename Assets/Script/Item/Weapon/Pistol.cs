@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pistol : Weapon
+public class Pistol : EquipItem, IEquipable
 {
     public override void Attack()
     {
@@ -18,9 +18,14 @@ public class Pistol : Weapon
             hitable = hit.transform.GetComponent<IHitable>();
             hitable?.Stun();
             hitable?.TakeHit(hit, 15);
-
-
-
         }
+    }
+
+    public void Equip()
+    {
+    }
+
+    public void UnEquip()
+    {
     }
 }

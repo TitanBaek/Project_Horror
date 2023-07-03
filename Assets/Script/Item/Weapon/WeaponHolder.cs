@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class WeaponHolder : MonoBehaviour
 {
-    [SerializeField] Weapon weapon;
+    [SerializeField] EquipItem weapon;
 
-    List<Weapon> weaponList = new List<Weapon>();
+    List<EquipItem> weaponList = new List<EquipItem>();
     public void Fire()
     {
         weapon.Attack();
     }
 
-    public void GetWeapon(Weapon weapon)
+    public void GetWeapon(EquipItem weapon)
     {
         weaponList.Add(weapon);
     }

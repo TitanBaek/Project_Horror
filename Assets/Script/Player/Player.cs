@@ -17,7 +17,7 @@ public class Player : PlayerAudio, IHitable
     private StateBase<Player>[] states;
     private StateBase<Player>[] h_states;
 
-    [SerializeField] int maxHp;
+    [SerializeField] private int maxHp;
     [SerializeField] private int curHp;
     [SerializeField] private GameObject[] hitPoints;
     [SerializeField] private AudioClip[] hitAudios;
@@ -27,7 +27,11 @@ public class Player : PlayerAudio, IHitable
     private PlayerAttacker playerAttacker;
 
     private Coroutine hit_Coroutine;
+    private Inventory inventory;
 
+    public Inventory _Inventroy {  get {  return inventory; } set { inventory = value; }  }
+    public int MaxHp { get { return maxHp; } set { maxHp = value;  } }
+    public int CurHp { get { return curHp; } set { curHp = value; } }
     [SerializeField] private UnityEvent onHit;
     public P_State CurState { get { return curState; } }
     public P_Health_State Cur_HealthState { get { return cur_HealthState; } }
@@ -44,7 +48,7 @@ public class Player : PlayerAudio, IHitable
         audioSource = GetComponents<AudioSource>();
         playerMove = GetComponent<PlayerMove>();
         anim = GetComponent<Animator>();
-
+        inventory = GetComponent<Inventory>();
         // 상태머신 생성
         states = new StateBase<Player>[(int)P_State.Size];
         states[(int)P_State.Idle] = new IdleState(this);

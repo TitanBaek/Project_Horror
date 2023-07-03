@@ -17,11 +17,16 @@ public class UIManager : MonoBehaviour
 
     public HurtScreenUI hurtScreenUI;
 
+    public InventoryUI inventoryUI;
+
     private void Awake()
     {
         Init();
         eventSystem = GameManager.Resource.Instantiate<EventSystem>("UI/EventSystem");
         eventSystem.transform.SetParent(transform, false);
+
+        inventoryUI = GameManager.Resource.Instantiate<InventoryUI>("UI/InventoryUI");
+        inventoryUI.transform.SetParent(transform, false);
     }
 
     public void Init()
@@ -58,8 +63,6 @@ public class UIManager : MonoBehaviour
         hurtScreenUI = GameManager.Resource.Instantiate(ui);
         hurtScreenUI.transform.SetParent(inGameCanvas.transform, false);
     }
-
-
 
     /*
     public T ShowPopUpUI<T>(T popUpUI) where T : PopUpUI

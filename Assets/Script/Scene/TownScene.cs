@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TownScene : BaseScene
 {
     private AudioSource[] a_source;
+    private GameObject[] items;
 
     private void Awake()
     {
         a_source = GetComponents<AudioSource>();
         GameManager.UI.Init();
         GameManager.UI.ShowHurtScreen<HurtScreenUI>("UI/HurtScreenUI");
+        items = GameObject.FindGameObjectsWithTag("Item");
     }
 
     protected override IEnumerator LoadingRoutine()
@@ -26,7 +29,8 @@ public class TownScene : BaseScene
         yield return new WaitForSecondsRealtime(0.5f);
         progress = 0.4f;
         // 랜덤 아이템 배치
-        Debug.Log("아이템 배치");
+        Debug.Log("아이템에 효과 주기");
+        SetItemEffect();
         yield return new WaitForSecondsRealtime(0.5f);
         progress = 0.7f;
         // 플레이어 생성 
@@ -36,6 +40,20 @@ public class TownScene : BaseScene
         progress = 1f;
         for (int i = 0; i < a_source.Length; i++)
             a_source[i].Play();
+    }
+
+    public void SetItemEffect()
+    {
+        foreach (GameObject item in items)
+        {
+            if (item != null)
+            {
+                ParticleSystem inItem  = GameManager.Resource.Instantiate(GameManager.Resource.Load<ParticleSystem>("Effect/ItemParticle"), item.transform.position,Quaternion.identity,item);// 각 아이템에 파티클 시스템 넣어주기
+                inItem.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                inItem.transform.SetParent(item.transform);
+            }
+        }
+
     }
 
 }

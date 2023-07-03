@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5899882778706186976}
   - component: {fileID: 1047404559518546296}
   - component: {fileID: 1715476214173017484}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: ItemParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 741886603303202747}
   m_LocalRotation: {x: -0.000338349, y: -0.029402362, z: 0.000009933361, w: -0.9995677}
   m_LocalPosition: {x: 1.25, y: 1.71, z: 20.99}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3001649662317893258}
@@ -4824,7 +4824,7 @@ GameObject:
   - component: {fileID: 3001649662317893258}
   - component: {fileID: 2469076724078168712}
   - component: {fileID: 909531368212668330}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Flare
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4840,7 +4840,7 @@ Transform:
   m_GameObject: {fileID: 6423154157556970249}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5899882778706186976}
@@ -6118,8 +6118,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.91814363, b: 0.6179246, a: 1}
-        key1: {r: 1, g: 0.91142964, b: 0.7688679, a: 1}
+        key0: {r: 1, g: 1, b: 1, a: 1}
+        key1: {r: 1, g: 1, b: 1, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 1}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}

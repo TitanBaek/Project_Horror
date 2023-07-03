@@ -89,10 +89,8 @@ public class Judi : Monster,IHitable
     }
     private void Update()
     {
-        Debug.Log(agent.speed);
         if (IsDead())
             return;
-        Debug.Log(curState);
         states[(int)curState].Update();         // 현재 상태에 대한 Update함수 호출
         states[(int)curState].Transition();
 
@@ -115,7 +113,6 @@ public class Judi : Monster,IHitable
     {
         if (IsDead())
             return;
-        Debug.Log(state);
         states[(int)curState].Exit();
         curState = state;
         states[(int)curState].Setup();
@@ -125,7 +122,6 @@ public class Judi : Monster,IHitable
     {
         if (IsDead())
             return;
-        Debug.Log(state);
         sub_states[(int)curSubState].Exit();
         curSubState = state;
         sub_states[(int)curSubState].Setup();
@@ -175,7 +171,6 @@ public class Judi : Monster,IHitable
         {           
             StopCoroutine(judi_Coroutine);
             audioSource[1].Stop();
-            Debug.Log("코루틴 멈춰");
         }
     }
 
@@ -207,7 +202,6 @@ public class Judi : Monster,IHitable
     {
         if (IsDead())
             return;
-        Debug.Log("몬스터가 맞았다.");
         ChangeState(M_SubState.Hit);
     }
 

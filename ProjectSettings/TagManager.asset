@@ -11,6 +11,9 @@ TagManager:
   - AimPoint
   - TPS_Cam
   - Aim_Cam
+  - Item
+  - ItemSlot
+  - Inventory
   layers:
   - Default
   - TransparentFX

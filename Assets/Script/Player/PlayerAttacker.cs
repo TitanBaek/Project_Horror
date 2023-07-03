@@ -37,7 +37,7 @@ public class PlayerAttacker : MonoBehaviour
         audioSource[0].clip = GameManager.Resource.Load<AudioClip>($"Sound/Beretta92_Shot00{randNum}");
         audioSource[0].Play();
 
-        muzzleEffect = GameManager.Resource.Instantiate<GameObject>("Effect/MuzzleFlash", muzzleSetTransform.position, Quaternion.identity, true);
+        muzzleEffect = GameManager.Resource.Instantiate<GameObject>("Effect/MuzzleFlash", muzzleSetTransform.position, muzzleSetTransform.rotation, true);
         GameManager.Resource.Destroy(muzzleEffect, 0.3f);
     }
 
