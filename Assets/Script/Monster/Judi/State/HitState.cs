@@ -17,21 +17,28 @@ namespace MonsterState
         public HitState(Judi owner) : base(owner)
         {
         }
+
         public override void Setup()
         {
         }
 
         public override void Enter()
         {
+            Debug.Log("스피드 0로");
             prevSpeed = owner.Agent.speed;
             owner.Agent.speed = 0;
-            owner.Anim.SetTrigger("Hit");            
+            owner.Anim.SetTrigger("Hit");
+            hitCoroutine = owner.StartCoroutine(HitFinish());
         }
+
         public override void Update()
         {
         }
+
         public override void Exit()
         {
+            hitFinished = false;
+            owner.StopCoroutine(hitCoroutine);
         }
 
         public override void LateUpdate()
@@ -42,7 +49,8 @@ namespace MonsterState
         {
             if (hitFinished)
             {
-                owner.Agent.speed = prevSpeed;
+                owner.Agent.speed = prevSpeed == 0 ? 3.5f : prevSpeed;
+                Debug.Log($"스피드 {owner.Agent.speed}로");
                 owner.ChangeState(M_SubState.Idle);
                 if(owner.CurState != M_State.Chase)
                 {
@@ -51,10 +59,10 @@ namespace MonsterState
                 }
             }
         }
-
+          
         public IEnumerator HitFinish()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1.5f);
             hitFinished = true;
         }
     }

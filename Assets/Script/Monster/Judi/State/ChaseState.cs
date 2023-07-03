@@ -6,9 +6,12 @@ namespace MonsterState
 {
     public class ChaseState : StateBase<Judi>
     {
+        Coroutine setSpeedCoroutine;
+
         public ChaseState(Judi owner) : base(owner)
         {
         }
+
         public override void Setup()
         {
         }
@@ -21,7 +24,9 @@ namespace MonsterState
             owner.SwitchStepSounds(1);  // 1을 보내서 뛰는 소리가 재생되게
             owner.Agent.speed = 0f;
             owner.Anim.SetBool("Chase", true);
+            setSpeedCoroutine = owner.StartCoroutine(DoSpeedUp());
         }
+
         public override void Update()
         {
             owner.Agent.destination = owner.PlayerPos.position;
@@ -34,15 +39,18 @@ namespace MonsterState
                 owner.ChangeState(M_State.Attack);
             }
         }
+
         public override void Exit()
         {
             owner.Anim.SetBool("Chase", false);
             owner.PlayerScreamSound(0);
+            owner.StopCoroutine(DoSpeedUp());
         }
 
         public override void LateUpdate()
         {
         }
+
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.blue;
@@ -62,6 +70,12 @@ namespace MonsterState
 
         public override void Transition()
         {
+        }
+
+        public IEnumerator DoSpeedUp()
+        {
+            yield return new WaitForSeconds(1.5f);
+            owner.Agent.speed = 3f;
         }
     }
 }

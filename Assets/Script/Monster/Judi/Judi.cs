@@ -89,6 +89,10 @@ public class Judi : Monster,IHitable
     }
     private void Update()
     {
+        Debug.Log(agent.speed);
+        if (IsDead())
+            return;
+        Debug.Log(curState);
         states[(int)curState].Update();         // 현재 상태에 대한 Update함수 호출
         states[(int)curState].Transition();
 
@@ -97,8 +101,8 @@ public class Judi : Monster,IHitable
     }
     private void LateUpdate()
     {
-        if (curState == M_State.Die)
-            return;                     // 죽으면 머리 못돌리게
+        if (IsDead())
+            return;
         HeadBanging();
     }
 
@@ -109,6 +113,8 @@ public class Judi : Monster,IHitable
 
     public void ChangeState(M_State state)
     {
+        if (IsDead())
+            return;
         Debug.Log(state);
         states[(int)curState].Exit();
         curState = state;
@@ -117,6 +123,8 @@ public class Judi : Monster,IHitable
     }
     public void ChangeState(M_SubState state)
     {
+        if (IsDead())
+            return;
         Debug.Log(state);
         sub_states[(int)curSubState].Exit();
         curSubState = state;
@@ -197,6 +205,8 @@ public class Judi : Monster,IHitable
 
     public void Stun()
     {
+        if (IsDead())
+            return;
         Debug.Log("몬스터가 맞았다.");
         ChangeState(M_SubState.Hit);
     }
@@ -224,5 +234,10 @@ public class Judi : Monster,IHitable
             ChangeState(M_State.Die);
         }
         Debug.Log($"공격 당하고 난 후의 몬스터의 체력 {curHp}/{maxHp}");
+    }
+
+    public bool IsDead()
+    {
+        return curState == M_State.Die ? true : false;
     }
 }
