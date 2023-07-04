@@ -10,11 +10,14 @@ public class GameManager : MonoBehaviour
     private static ResourceManager resourceManager;
     private static UIManager uiManager;
     private static SceneManager sceneManager;
+    private static Inventory inventory;
 
     public static GameManager Instance { get { return instance; } }
     public static PoolManager Pool { get { return poolManager; } }
     public static ResourceManager Resource { get { return resourceManager; } }
     public static UIManager UI { get { return uiManager; } }
+    public static Inventory Inventory { get { return inventory; } set { inventory = value; } }
+
 public static SceneManager Scene { get { return sceneManager; } }
 
     private void Awake()

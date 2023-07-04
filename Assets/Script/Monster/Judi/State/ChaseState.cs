@@ -29,6 +29,7 @@ namespace MonsterState
 
         public override void Update()
         {
+
             owner.Agent.destination = owner.PlayerPos.position;
             if (Vector3.Distance(owner.PlayerPos.position, owner.transform.position) > owner.ChaseRange)        // 플레이어가 ChaseRange에서 벗어나면 Return(Patrol로 해도 될듯..)으로 상태 변경
             {

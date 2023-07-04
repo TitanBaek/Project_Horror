@@ -323,6 +323,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 9104389028463748586, guid: dd6f4e0eb95ef36408dd6bbddd33b0eb, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.30252692
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104389028463748586, guid: dd6f4e0eb95ef36408dd6bbddd33b0eb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.9531409
+      objectReference: {fileID: 0}
+    - target: {fileID: 9104389028463748586, guid: dd6f4e0eb95ef36408dd6bbddd33b0eb, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -1224.781
+      objectReference: {fileID: 0}
     - target: {fileID: 9104389029186363383, guid: dd6f4e0eb95ef36408dd6bbddd33b0eb, type: 3}
       propertyPath: m_Name
       value: InventoryCanvas

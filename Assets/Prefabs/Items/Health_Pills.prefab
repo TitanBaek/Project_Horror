@@ -46,9 +46,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemCode: 1
-  name: "\uD68C\uBCF5\uC57D"
+  category: 0
+  itemName: "\uD68C\uBCF5\uC57D"
   description: "\uC5B4\uCA50\uC9C0 \uBA39\uC73C\uBA74 \uAC74\uAC15\uD574\uC9C8 \uAC83
     \uAC19\uB2E4."
+  slot: {fileID: 7529936344281425008, guid: 134d6bf7cd725524fb1894fa3ea28b9a, type: 3}
   health_Plus: 30
 --- !u!1001 &6454132199038252151
 PrefabInstance:

@@ -85,6 +85,48 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: ef4deb7b6cac3794694ab402e74b3e7e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a78a725941312494b930d664f3b315d0, type: 3}
+--- !u!1 &581589595574175488 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1690370004738036, guid: a78a725941312494b930d664f3b315d0, type: 3}
+  m_PrefabInstance: {fileID: 582153774654085364}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &3266373704538766884
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581589595574175488}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.10538142, y: 0.25555885, z: 0.33849335}
+  m_Center: {x: 0.06505619, y: 0.02910912, z: 0.06218624}
+--- !u!114 &3266373704538766886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581589595574175488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eef35fa75e88ab949bf48616875a6212, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemCode: 2
+  category: 0
+  itemName: "\uD578\uB4DC\uAC74"
+  description: "\uB300\uC2DC\uBCF4\uB4DC\uC5D0 \uB123\uC5B4\uB480\uB358 \uD578\uB4DC\uAC74\uC774\uB2E4."
+  slot: {fileID: 932874599489997849, guid: 201c3b138a0d2114db308827148219c7, type: 3}
+  maxDistance: 90000
+  damage: 15
+  weaponSoundClips:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!4 &6653711370131320111 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6071559261934024155, guid: a78a725941312494b930d664f3b315d0, type: 3}

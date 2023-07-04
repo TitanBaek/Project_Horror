@@ -24,9 +24,6 @@ public class UIManager : MonoBehaviour
         Init();
         eventSystem = GameManager.Resource.Instantiate<EventSystem>("UI/EventSystem");
         eventSystem.transform.SetParent(transform, false);
-
-        inventoryUI = GameManager.Resource.Instantiate<InventoryUI>("UI/InventoryUI");
-        inventoryUI.transform.SetParent(transform, false);
     }
 
     public void Init()
@@ -62,6 +59,12 @@ public class UIManager : MonoBehaviour
         T ui = GameManager.Resource.Load<T>(path);
         hurtScreenUI = GameManager.Resource.Instantiate(ui);
         hurtScreenUI.transform.SetParent(inGameCanvas.transform, false);
+    }
+
+    public void CreateInventoryUI()
+    {
+        inventoryUI = GameManager.Resource.Instantiate<InventoryUI>("UI/InventoryUI",new Vector3(1000,1000,1000),Quaternion.identity);
+        inventoryUI.transform.SetParent(transform, false);
     }
 
     /*

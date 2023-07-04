@@ -8,12 +8,15 @@ public class Item : MonoBehaviour, ICheckable
     private Player player;  
     [SerializeField] protected int itemCode;
     [SerializeField] private ItemCategory category;
-    [SerializeField] protected string name;
+    [SerializeField] protected string itemName;
     [SerializeField] protected string description;
+    [SerializeField] protected GameObject slot;
     protected int itemEA = 1;
     public ItemCategory Category { get { return category; } }
     public int ItemEA { get { return itemEA; } set { itemEA = value; } }    
+    public string ItemName { get { return itemName; } set { itemName = value; } }
 
+    public GameObject Slot {  get { return slot; } set {  slot = value; } }
 
 
     private void Awake()
@@ -37,7 +40,7 @@ public class Item : MonoBehaviour, ICheckable
     public void Check()
     {
         // 가져가냐 마냐 라는 선택지 다이얼로그 매니저 구현하면 집어넣기
-        Debug.Log($"{this.name}가 앞에 있다");
+        Debug.Log($"{this.itemName}가 앞에 있다");
         GetItem();
     }
 
