@@ -88,6 +88,7 @@ public class InventoryUI : BaseUI
         }
     }
 
+    //TODO ©ю╢ц гоюз..
 
     IEnumerator Rotate(float rotateFloat,float duration = 1f)
     {
