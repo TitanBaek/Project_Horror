@@ -129,42 +129,9 @@ public class InventoryUI : BaseUI
         Debug.Log($"{itemList.Count} 크기의 리스트에서 현재 인덱스는 {selectedItemIndex} ");
         selectedItem = itemList[selectedItemIndex];
 
-        //Slots_Center.transform.rotation = Quaternion.Euler(new Vector3(0, -1 * selectedItemIndex * rotateFloat, 0));
         naviCoroutine = StartCoroutine(LookAtRoutine(Quaternion.Euler(new Vector3(0, -1 * selectedItemIndex * rotateFloat, 0))));
         SetItemText();
 
-        /*
-        foreach(bool item in itemList.Values)
-        {
-            if (item)
-            {
-                destination = dictionaryIndex * rotateFloat;
-            }
-            dictionaryIndex++;
-        }
-        */
-        //Debug.Log($"{dictionaryIndex} / {destination}");
-        /*
-        dir = new Vector3(value.Get<Vector2>().x, 0, value.Get<Vector2>().y);
-        float y = Slots_Center.transform.rotation.y;
-        if (dir.x > 0)
-        {
-            //Vector3 changeRotation = new Vector3(Slots_Center.transform.rotation.x, Slots_Center.transform.rotation.y + rotateFloat,Slots_Center.transform.rotation.z);
-            // 오른쪽
-            //Slots_Center.transform.rotation = Quaternion.Slerp(Slots_Center.transform.rotation,Quaternion.Euler(new Vector3(0,rotateFloat,0)),5f);
-            Slots_Center.transform.Rotate(new Vector3(0, +rotateFloat, 0));
-            //Slots_Center.transform.rotation = Quaternion.Slerp(Slots_Center.transform.rotation, Quaternion.Euler(changeRotation), Time.deltaTime* 10);
-            //naviCoroutine = StartCoroutine(Rotate(rotateFloat, dir.x));
-        } else if(dir.x < 0)
-        {
-            //Vector3 changeRotation = new Vector3(Slots_Center.transform.rotation.x, Slots_Center.transform.rotation.y - rotateFloat, Slots_Center.transform.rotation.z);
-            // 왼쪽
-            //Slots_Center.transform.rotation = Quaternion.Slerp(Slots_Center.transform.rotation, Quaternion.Euler(new Vector3(0, - rotateFloat, 0)), 5f);
-            Slots_Center.transform.Rotate(new Vector3(0,-rotateFloat, 0));
-            //Slots_Center.transform.rotation = Quaternion.Slerp(Slots_Center.transform.rotation, Quaternion.Euler(changeRotation), Time.deltaTime * 10);
-            //naviCoroutine = StartCoroutine(Rotate(rotateFloat, dir.x));
-        }
-        */
     }
     IEnumerator LookAtRoutine(Quaternion rotatePosition)
     {
@@ -213,16 +180,6 @@ public class InventoryUI : BaseUI
             {
                 rotateBool = false;
             }
-
-            /*
-            if (dir > 0 && Slots_Center.transform.rotation.eulerAngles.y >= destination)
-            {
-                rotateBool = false;
-            } else if (dir < 0 && Slots_Center.transform.rotation.eulerAngles.y <= destination)
-            {
-                rotateBool = false;
-            }
-            */
         }
         nowSpin = false;
         CoroutineStop();
