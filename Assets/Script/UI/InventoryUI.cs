@@ -5,11 +5,13 @@ using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using TMPro;
 
 public class InventoryUI : BaseUI
 {
     [SerializeField] private GameObject Slots_Center;
-    [SerializeField] private TMP_Text itemText;
+    [SerializeField] private TextMeshProUGUI itemText;
+    [SerializeField] private TextMeshProUGUI itemInfoText;
     private Player player;
     private float radius = 50f;
     private int numOfChild;
@@ -97,6 +99,7 @@ public class InventoryUI : BaseUI
     private void SetItemText(string text = "")
     {
         itemText.text = $"{text}  {selectedItem.ItemName}";
+        itemInfoText.text = selectedItem.Description;
     }
 
     private void SetSlotParent(GameObject slot)

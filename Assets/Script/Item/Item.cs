@@ -15,7 +15,7 @@ public class Item : MonoBehaviour, ICheckable
     public ItemCategory Category { get { return category; } }
     public int ItemEA { get { return itemEA; } set { itemEA = value; } }    
     public string ItemName { get { return itemName; } set { itemName = value; } }
-
+    public string Description { get { return description; } set { description = value; } }
     public GameObject Slot {  get { return slot; } set {  slot = value; } }
 
 
