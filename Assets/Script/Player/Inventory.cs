@@ -81,7 +81,6 @@ public class Inventory : MonoBehaviour
             firstOpen = false;
         }
 
-        GameManager.UI.inventoryUI.SetInventory();
 
         if (isOpen)
         {
@@ -92,6 +91,7 @@ public class Inventory : MonoBehaviour
             ResetInventory();
         } else
         {
+            GameManager.UI.inventoryUI.SetInventory();
             RenderSettings.fog = false;
             Time.timeScale = 0f;
             inventoryUI.SetActive(true);
