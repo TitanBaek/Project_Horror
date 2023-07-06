@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7961292278093965006}
   - component: {fileID: 6678921715628016990}
+  - component: {fileID: 375844702}
   m_Layer: 0
   m_Name: Health_Pills
   m_TagString: Item
@@ -45,13 +46,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63bb76fd96e36934f8153e1a6d3f271a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   itemCode: 1
-  category: 0
+  category: 2
   itemName: "\uD68C\uBCF5\uC57D"
   description: "\uC5B4\uCA50\uC9C0 \uBA39\uC73C\uBA74 \uAC74\uAC15\uD574\uC9C8 \uAC83
     \uAC19\uB2E4."
   slot: {fileID: 7529936344281425008, guid: 134d6bf7cd725524fb1894fa3ea28b9a, type: 3}
-  health_Plus: 30
+  render: {fileID: 0}
+  health_Plus: 35
+--- !u!65 &375844702
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379969157523515611}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.26963997, y: 0.3050986, z: 0.2691326}
+  m_Center: {x: 0.015244484, y: 0.06602764, z: -0.0050649643}
 --- !u!1001 &6454132199038252151
 PrefabInstance:
   m_ObjectHideFlags: 0

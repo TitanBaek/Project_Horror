@@ -18,15 +18,16 @@ public class PlayerAttacker : MonoBehaviour
     private Animator anim;
     private bool reloading;
     private bool isAim = false;
-
+    private Player player;
+    private bool equipWeapon;
     // 주준중일때 moveSpeed 깎아주는 거 구현해야함
-
-
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
         audioSource = weaponHolder.GetComponents<AudioSource>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        
     }
 
     public void Fire()
@@ -59,6 +60,8 @@ public class PlayerAttacker : MonoBehaviour
 
     private void OnAim(InputValue value)
     {
+        if (player._Inventroy.equipment[0] == null)
+            return;
         if (value.isPressed)
         {
             int randNum = Random.Range(1, 3);

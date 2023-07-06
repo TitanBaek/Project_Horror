@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface IUseable
 {
-    public abstract void UseItem(Player player);
+    public abstract void UseThis(Player player);
 
 }

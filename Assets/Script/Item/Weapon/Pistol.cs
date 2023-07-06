@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Pistol : EquipItem, IEquipable
 {
+    private void Awake()
+    {
+        this.category = ItemCategory.Weapon;
+    }
     public override void Attack()
     {
         base.Attack();

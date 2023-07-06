@@ -15,6 +15,9 @@ TagManager:
   - ItemSlot
   - Inventory
   - Inventory_SelectArea
+  - WeaponHolder
+  - WeaponPos
+  - Muzzle
   layers:
   - Default
   - TransparentFX

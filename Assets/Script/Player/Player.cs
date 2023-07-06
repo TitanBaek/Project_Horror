@@ -29,6 +29,8 @@ public class Player : PlayerAudio, IHitable
     private Coroutine hit_Coroutine;
     private Inventory inventory;
 
+    private GameObject weaponHolder;
+    public GameObject WeaponHolder { get { return weaponHolder; } set { weaponHolder = value; } }
     public Inventory _Inventroy {  get {  return inventory; } set { inventory = value; }  }
     public int MaxHp { get { return maxHp; } set { maxHp = value;  } }
     public int CurHp { get { return curHp; } set { curHp = value; } }
@@ -65,8 +67,14 @@ public class Player : PlayerAudio, IHitable
         h_states[(int)P_Health_State.Deadly] = new DeadlyState(this);
         cur_HealthState = P_Health_State.Normal;
         ChangeState(cur_HealthState);
-    }
 
+        //웨포홀더
+        weaponHolder = GameObject.FindGameObjectWithTag("WeaponPos");
+    }
+    public void Test()
+    {
+        Debug.Log("테스트");
+    }
     public void Update()
     {
         states[(int)curState].Update();
@@ -167,10 +175,36 @@ public class Player : PlayerAudio, IHitable
     // 현재 남은체력에 대한 수치값을 HurtScreenUI의 SetAlpha에 매개변수로 넘겨서 화면에 피칠갑되게 
     public void CurrentHp()
     {        
-        float hpPercent = 100 - ((curHp / maxHp) * 100);
-        Debug.Log($"100 - ({curHp}/{maxHp} * 100) = {hpPercent}");
+        float hpPercent = Mathf.Round(curHp * 100 / maxHp);
         GameManager.UI.hurtScreenUI.SetAlpha(hpPercent / 100);
+
     }
 
+    public void ResetEquips()
+    {
+        if (inventory.equipment[0] != null)
+        {
+            GameManager.Resource.Destroy(weaponHolder.transform.GetChild(0).gameObject);
+        }
+        if (inventory.equipment[1] != null)
+            //위와 같은 방식으로 서브웨폰홀더를 만들어서 게임오브젝트 디스크로이 해줌
+            GameManager.Resource.Destroy(inventory.equipment[1].Render);
+    }
+    public void SetEquips()
+    {
+        // 0번 슬롯에 무장중인 아이템의 게임오브젝트를 Instantiate 해줌
+        if (inventory.equipment[0] != null)
+        {
+            Debug.Log("SetEquips 함수에 들어와서 장비가 장착되어 있는것을 확인함");
+            GameObject weapon = GameManager.Resource.Instantiate<GameObject>(inventory.equipment[0].Render);
+            weapon.transform.SetParent(weaponHolder.transform, false);
+        }
 
+        if (inventory.equipment[1] != null)
+        {
+            GameObject weapon = GameManager.Resource.Instantiate<GameObject>(inventory.equipment[1].Render);
+            //weapon.transform.SetParent(weaponHolder.transform, false);
+            //보조무기에 대한 트랜스폼을 가진 변수를 이용해서 SetParent해줘야함
+        }
+    }
 }

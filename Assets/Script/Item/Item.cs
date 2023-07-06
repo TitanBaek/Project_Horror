@@ -5,27 +5,41 @@ using UnityEngine;
 public enum ItemCategory { Weapon, subWeapon, Usable, KeyItem };
 public class Item : MonoBehaviour, ICheckable
 {
-    private Player player;  
+    [SerializeField] private Player player;  
     [SerializeField] protected int itemCode;
-    [SerializeField] private ItemCategory category;
+    [SerializeField] protected ItemCategory category; 
     [SerializeField] protected string itemName;
     [SerializeField] protected string description;
     [SerializeField] protected GameObject slot;
+    [SerializeField] protected GameObject render;
     protected int itemEA = 1;
     public ItemCategory Category { get { return category; } }
     public int ItemEA { get { return itemEA; } set { itemEA = value; } }    
     public string ItemName { get { return itemName; } set { itemName = value; } }
     public string Description { get { return description; } set { description = value; } }
     public GameObject Slot {  get { return slot; } set {  slot = value; } }
-
+    public GameObject Render { get { return render; } set {  render = value; } }
 
     private void Awake()
     {
+    }
+
+    private void Start()
+    {
+        Init();
+        Debug.Log("시작");
+        Debug.Log("끝");
+
+    }
+
+    public void Init()
+    {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        Debug.Log($"아이템 생성 : {player.name}");
     }
     public void GetItem()
     {
+        if (player == null)
+            Init();
         Debug.Log("GetItem");
         player._Inventroy.AddItem(this); 
         Disable();

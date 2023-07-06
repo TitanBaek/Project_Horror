@@ -23,7 +23,7 @@ public class InventoryUI : BaseUI
     private Item selectedItem;
     private int selectedItemIndex;
     Coroutine naviCoroutine;
-
+    Coroutine inventoryResetCoroutine;
     /*
      * 딕셔너리 하나 더 만들어..?
      * <Item,Bool> 로 해서 .. 
@@ -38,16 +38,22 @@ public class InventoryUI : BaseUI
 
     private void Start()
     {
+        Debug.Log("인벤토리UI스크립트");
+        Debug.Log(player.name);
     }
 
     public void SetSelectedItem(Item item)
     {
         Debug.Log($"아이템 선택 {item.ItemName}");
     }
+
     public void ResetInventory()
     {
-        numOfChild = Slots_Center.transform.childCount;
+        if (player._Inventroy.Pocket.Count == 0)
+            return;
 
+        numOfChild = Slots_Center.transform.childCount;
+        nowSpin = false;
         for (int i = 0; i < numOfChild; i++)
         {
             GameManager.Resource.Destroy(Slots_Center.transform.GetChild(i).gameObject);            
@@ -66,6 +72,8 @@ public class InventoryUI : BaseUI
         bool isFirst = true;
         itemList = new List<Item>();
 
+        if (player._Inventroy.Pocket.Count == 0)
+            return;
         foreach (Item value in player._Inventroy.Pocket.Values)
         {
             // 가장 첫 아이템을 셀렉티드로
@@ -81,19 +89,23 @@ public class InventoryUI : BaseUI
             insertData = GameManager.Instantiate<GameObject>(value.Slot, Slots_Center.transform.position, Quaternion.Euler(0, 0, 0));
             SetSlotParent(insertData);
         }
+        SetObjectPosition();
+        SetItemText();
+    }
 
+    private void SetObjectPosition()
+    {
+        Slots_Center.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         numOfChild = Slots_Center.transform.childCount;
-
+        Debug.Log($"나우스핀은 {nowSpin} 슬롯츠 센터의 자식 개체의 총 개수는요 : {Slots_Center.transform.childCount} 이고 포켓 내부의 아이템 개수는{player._Inventroy.Pocket.Count} 그리고 지금 셀렉티드 인덱스는{selectedItemIndex}");
         for (int i = 0; i < numOfChild; i++)
         {
             float angle = Mathf.PI * 0.5f - i * (Mathf.PI * 2.0f) / numOfChild;
             GameObject child = Slots_Center.transform.GetChild(i).gameObject;
 
             child.transform.position
-                = Slots_Center.transform.position + (new Vector3(Mathf.Cos(angle),0, Mathf.Sin(angle))) * radius;
+                = Slots_Center.transform.position + (new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle))) * radius;
         }
-
-        SetItemText();
     }
 
     private void SetItemText(string text = "")
@@ -107,9 +119,27 @@ public class InventoryUI : BaseUI
         slot.transform.SetParent(Slots_Center.transform);
     }
 
+    private void OnChoose(InputValue value) {
+
+        Debug.Log($"선택된 아이템의 인덱스 {selectedItemIndex}");
+
+        if(selectedItem.Category == ItemCategory.Weapon || selectedItem.Category == ItemCategory.subWeapon)
+        {
+            player._Inventroy.DoEquip((EquipItem) selectedItem);
+            SetItemText();
+        }
+        else if (selectedItem.Category == ItemCategory.Usable)
+        {
+            player._Inventroy.DoUse((UseItem) selectedItem);
+            ResetItemList();
+        }
+    }
 
     private void OnNavigation(InputValue value)
     {
+        if (player._Inventroy.Pocket.Count == 0)
+            return;
+
         if (nowSpin)
             return;
         Debug.Log(selectedItem.ItemName);
@@ -153,48 +183,82 @@ public class InventoryUI : BaseUI
             yield return new WaitForSecondsRealtime(0.01f);
         }
         nowSpin = false;
-        CoroutineStop();
+        CoroutineStop(naviCoroutine);
     }
 
 
-    IEnumerator Rotate(float rotateFloat, float dir)
+    private void CoroutineStop(Coroutine co)
     {
-        bool rotateBool = true;
-        int loopcount = 0;
-        float y = dir > 0 ? 1 : -1; // 우측이면 증감, 좌측이면 차감
-        float destination = 0;
-        if (dir > 0)
-        {
-            Debug.Log($" Dir {dir} , Y {Slots_Center.transform.rotation.eulerAngles.y} , 목표 Y {Slots_Center.transform.rotation.eulerAngles.y + rotateFloat}");
-            destination = Slots_Center.transform.rotation.eulerAngles.y + rotateFloat;
-        }
-        else
-        {
-            Debug.Log($" Dir {dir} , Y {Slots_Center.transform.rotation.eulerAngles.y} , 목표 Y {Slots_Center.transform.rotation.eulerAngles.y - rotateFloat}");
-            destination = Slots_Center.transform.rotation.eulerAngles.y - rotateFloat;
-        }
-        while (rotateBool)
-        {
-            loopcount++;
-            yield return new WaitForSecondsRealtime(0.05f);
-            Slots_Center.transform.Rotate(new Vector3(Slots_Center.transform.rotation.x, Slots_Center.transform.rotation.y + y, Slots_Center.transform.rotation.z));
+        StopCoroutine(co);
+    }
 
-            if(loopcount >= rotateFloat)
+    private void ResetItemList()
+    {
+        nowSpin = false;
+        numOfChild = Slots_Center.transform.childCount;
+        Debug.Log($"디스트로이 전의 Slots_Center의 자식 개체 수: {Slots_Center.transform.childCount}");
+
+        for (int i = 0; i < numOfChild; i++)
+        {
+            // 사용하고자 한 아이템의 인덱스와 같은 Slots_Center의 자식개체를 Destroy한다.
+            if (i == selectedItemIndex)
             {
-                rotateBool = false;
+                GameManager.Resource.Destroy(Slots_Center.transform.GetChild(i).gameObject);
             }
         }
-        nowSpin = false;
-        CoroutineStop();
+         
+        itemList.RemoveAt(selectedItemIndex); // 소모형 아이템을 사용했기 때문에 해당 아이템을 제거한다.
+        selectedItemIndex = selectedItemIndex - 1 < 0 ? 0 : selectedItemIndex - 1; // 셀렉티드아이템인덱스 초기화
+        selectedItem = itemList[selectedItemIndex];
+
+        inventoryResetCoroutine = StartCoroutine(ChildPositionSet());
+
+        float rotateFloat = (360 / player._Inventroy.Pocket.Count);
+        naviCoroutine = StartCoroutine(LookAtRoutine(Quaternion.Euler(new Vector3(0, -1 * selectedItemIndex * rotateFloat, 0))));
     }
 
-    private void CoroutineStop()
+    private IEnumerator ChildPositionSet()
     {
-        StopCoroutine(naviCoroutine);
+        yield return new WaitForEndOfFrame();
+        Debug.Log($"디스트로이 후의 Slots_Center의 자식 개체 수: {Slots_Center.transform.childCount}");
+        SetObjectPosition(); // Slots의 자식개체들 포지션 지정해주는 함수
+        yield return new WaitForEndOfFrame();
+        StopCoroutine(inventoryResetCoroutine);
     }
 
 
 
+    private Item FindItemWithIndex(int index)
+    {
+        int count = 0;
+        foreach (Item value in player._Inventroy.Pocket.Values)     // 포켓내부를 돌며.. 매개변수로 전달받은 인덱스에 맞는 값을 리턴한다.
+        {
+            if(index == count)
+            {
+                return value;
+            }
+            count++;
+        }
+        return null;
+    }
+
+    private void InInventoryReset()
+    {
+        float rotateFloat = (360 / player._Inventroy.Pocket.Count);
+        Debug.Log($"2. 현재 포켓 내의 아이템 개수는 : {player._Inventroy.Pocket.Count}");
+        
+        foreach (Item value in player._Inventroy.Pocket.Values)
+        {
+            // 아이템 오브젝트 생성 및 부모객체 설정
+            GameObject insertData;
+            insertData = GameManager.Instantiate<GameObject>(value.Slot, Slots_Center.transform.position, Quaternion.Euler(0, 0, 0));
+            SetSlotParent(insertData);
+        }
+
+        SetObjectPosition(); // Slots의 자식개체들 포지션 지정해주는 함수
+        naviCoroutine = StartCoroutine(LookAtRoutine(Quaternion.Euler(new Vector3(0, -1 * selectedItemIndex * rotateFloat, 0))));
+        SetItemText();
+    }
 
 }     
 

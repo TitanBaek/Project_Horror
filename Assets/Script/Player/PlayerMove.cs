@@ -16,7 +16,7 @@ public class PlayerMove : PlayerAudio
     [SerializeField] private float moveSpeed;
     [SerializeField] private float walkSpeed;
     [SerializeField] private float runSpeed;
-
+    private float ySpeed;
 
     private AudioClip[] StepSounds;
     private int footStepIndex = 0;
@@ -86,9 +86,20 @@ public class PlayerMove : PlayerAudio
     private void DoGravity()
     {
         // 내려오게..
+        ySpeed += Physics.gravity.y * Time.deltaTime;
+
+        if (GroundCheck() && ySpeed < 0)
+            ySpeed = -1;
+
+        controller.Move(Vector3.up * ySpeed * Time.deltaTime);
     }
 
+    private bool GroundCheck()
+    {
+        RaycastHit hit;
+        return Physics.SphereCast(transform.position + Vector3.up * 1, 0.5f, Vector3.down, out hit, 0.6f); // 어디부터, 어느정도의 둘레짜리를, 어느방향으로, 얼마만큼의 길이로 쏠건지
 
+    }
     private void OnRun(InputValue value)
     {
         if (value.isPressed)

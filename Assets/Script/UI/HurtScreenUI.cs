@@ -17,7 +17,7 @@ public class HurtScreenUI : BaseUI
     {
         Debug.Log($"{alpha}가 셋알파 들어옴");
         Color color = img.color;
-        color.a += 0.2f;
+        color.a = 1f - alpha;
         img.color = color;
     }
 }
