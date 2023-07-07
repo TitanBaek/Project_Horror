@@ -13,21 +13,19 @@ public class Inventory : MonoBehaviour
     private bool isOpen;
     private bool firstOpen;
     private Player player;
-
     private void Awake()
     {
         Debug.Log("인벤토리 스크립트 어웨이크");
         isOpen = false;
         firstOpen = true;
-        inputSystem = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        inputSystem = GetComponent<PlayerInput>();
+        player = GetComponent<Player>();   
     }
 
     public void DoUse<T>(T useableItem) where T : UseItem
     {
         useableItem.UseThis(player);
         player.CurrentHp();
-        RemoveItem(useableItem);
     }
 
     public bool DoEquip<T>(T equipItem) where T : EquipItem
@@ -100,24 +98,31 @@ public class Inventory : MonoBehaviour
 
     public void AddItem<T>(T item) where T : Item
     {
-        Debug.Log("애다아이템");
-        Debug.Log($"아이템에 {item.ItemName} 추가 됨");
         if (pocket.ContainsKey(item.ItemName))
         {   // 이미 해당 아이템이 존재한다면 EA를 증감시켜줌
-            Debug.Log("아이템 증감");
-            pocket[item.ItemName].ItemEA++;
+            pocket[item.ItemName].ItemEA += 1;
+            Debug.Log($"매개변수 {item.ItemEA} / 포켓 {pocket[item.ItemName].ItemEA} 아이템 증감");
         }
         else
         {
+            // 해당 아이템이 포켓에 없으니 Add
             pocket.Add(item.ItemName, item);
         }
+
+        GameManager.UI.ShowGetItemScreen<GetItemUI>(item);
     }
 
     public void RemoveItem(Item item)
     {
         // 아이템이 사용됐거나 창고로 옮길때 호출되는 함수
-        Debug.Log($"아이템에 {item.ItemName} 삭제 됨");
-        pocket.Remove(item.ItemName);
+        if(item.ItemEA > 1) {
+            item.ItemEA--;
+        }
+        else
+        {
+            Debug.Log($"아이템에 {item.ItemName} 삭제 됨");
+            pocket.Remove(item.ItemName);
+        }
     }
 
     public void ResetInventory()
@@ -128,6 +133,8 @@ public class Inventory : MonoBehaviour
 
     public void OnInventory(InputValue value)
     {
+        if (GameManager.UI.uiActive)
+            return;
         if (firstOpen)
         {
             // 생성
@@ -141,7 +148,7 @@ public class Inventory : MonoBehaviour
         {
             //inputSystem.enabled = true;
             RenderSettings.fog = true;
-            Time.timeScale = 1f;
+            GameManager.TimeStop(1f);
             inventoryUI.SetActive(false);
             isOpen = false;
         } else
@@ -149,7 +156,7 @@ public class Inventory : MonoBehaviour
             //inputSystem.enabled = false;
             GameManager.UI.inventoryUI.SetInventory();
             RenderSettings.fog = false;
-            Time.timeScale = 0f;
+            GameManager.TimeStop(0f);
             inventoryUI.SetActive(true);
             isOpen = true;
         }

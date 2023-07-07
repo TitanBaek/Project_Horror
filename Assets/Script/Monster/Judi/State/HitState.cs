@@ -28,6 +28,7 @@ namespace MonsterState
             prevSpeed = owner.Agent.speed;
             owner.Agent.speed = 0;
             owner.Anim.SetTrigger("Hit");
+            CameraShake.Instance.ShakeCamera(0.5f, .1f);
             hitCoroutine = owner.StartCoroutine(HitFinish());
         }
 

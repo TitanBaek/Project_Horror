@@ -18,7 +18,16 @@ public class GameManager : MonoBehaviour
     public static UIManager UI { get { return uiManager; } }
     public static Inventory Inventory { get { return inventory; } set { inventory = value; } }
 
-public static SceneManager Scene { get { return sceneManager; } }
+    public static bool isStop = false;
+
+
+    public static void TimeStop(float num)
+    {
+        isStop = num == 0f ? true : false;
+        Time.timeScale = num;
+    }
+
+    public static SceneManager Scene { get { return sceneManager; } }
 
     private void Awake()
     {
@@ -61,4 +70,5 @@ public static SceneManager Scene { get { return sceneManager; } }
         sceneManager = sceneObj.AddComponent<SceneManager>();
 
     }
+
 }

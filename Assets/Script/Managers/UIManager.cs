@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     private EventSystem eventSystem;
 
     private Canvas popUpCanvas;
-    //private Stack<PopUpUI> popUpStack;
+    //private Stack<BaseUI> popUpStack;
 
     private Canvas windowCanvas;
 
@@ -17,18 +17,21 @@ public class UIManager : MonoBehaviour
 
     public HurtScreenUI hurtScreenUI;
 
+    public GetItemUI getItemUI;
+
     public InventoryUI inventoryUI;
 
+    public bool uiActive;
     private void Awake()
     {
         Init();
+        uiActive = false;
         eventSystem = GameManager.Resource.Instantiate<EventSystem>("UI/EventSystem");
         eventSystem.transform.SetParent(transform, false);
     }
 
     public void Init()
     {
-
         /*
         popUpCanvas = GameManager.Resource.Instantiate<Canvas>("UI/Canvas");
         popUpCanvas.gameObject.name = "PopUpCanvas";
@@ -54,6 +57,26 @@ public class UIManager : MonoBehaviour
         ui.transform.SetParent(inGameCanvas.transform, false);
     }
     */
+
+    public void ShowGetItemScreen<T>(Item item) where T : GetItemUI
+    {
+        uiActive = true;
+        // 생성하고 매개변수로 받아온 아이템을 전달해서 초기세팅 하게
+        //GetItemUI ui = GameManager.Pool.GetUI("UI/GetItemUI");
+        T ui = GameManager.Resource.Load<T>("UI/GetItemUI");
+        getItemUI = GameManager.Resource.Instantiate(ui);
+        getItemUI.transform.SetParent(inGameCanvas.transform, false);
+
+        getItemUI.SetGetItemUI(item);
+    }
+
+    public void DisableGetItemScreen()
+    {
+        uiActive = false;
+        Debug.Log("UI매니저 아이템스크린 디스트로이");
+        GameManager.Resource.Destroy(getItemUI.gameObject);
+    }
+
     public void ShowHurtScreen<T>(string path) where T : HurtScreenUI
     {
         T ui = GameManager.Resource.Load<T>(path);

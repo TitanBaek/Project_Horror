@@ -12,6 +12,7 @@ public class InventoryUI : BaseUI
     [SerializeField] private GameObject Slots_Center;
     [SerializeField] private TextMeshProUGUI itemText;
     [SerializeField] private TextMeshProUGUI itemInfoText;
+    [SerializeField] private TextMeshProUGUI itemEA;
     private Player player;
     private float radius = 50f;
     private int numOfChild;
@@ -22,8 +23,10 @@ public class InventoryUI : BaseUI
     [SerializeField] private List<Item> itemList;
     private Item selectedItem;
     private int selectedItemIndex;
+    private AudioSource audioSource;
     Coroutine naviCoroutine;
     Coroutine inventoryResetCoroutine;
+
     /*
      * 딕셔너리 하나 더 만들어..?
      * <Item,Bool> 로 해서 .. 
@@ -32,6 +35,7 @@ public class InventoryUI : BaseUI
     private void Awake()
     {
        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+       audioSource = GetComponent<AudioSource>();
        nowSpin = false;
        selectedItemIndex = 0;
     }
@@ -112,6 +116,7 @@ public class InventoryUI : BaseUI
     {
         itemText.text = $"{text}  {selectedItem.ItemName}";
         itemInfoText.text = selectedItem.Description;
+        itemEA.text = (selectedItem.ItemEA > 1 ? selectedItem.ItemEA : 1).ToString();
     }
 
     private void SetSlotParent(GameObject slot)
@@ -124,15 +129,19 @@ public class InventoryUI : BaseUI
         Debug.Log($"선택된 아이템의 인덱스 {selectedItemIndex}");
 
         if(selectedItem.Category == ItemCategory.Weapon || selectedItem.Category == ItemCategory.subWeapon)
-        {
+        {  
+            audioSource.clip = ChangeInventoryAudioClip("Sound/Do_Equip");
             player._Inventroy.DoEquip((EquipItem) selectedItem);
             SetItemText();
         }
         else if (selectedItem.Category == ItemCategory.Usable)
         {
+            audioSource.clip = ChangeInventoryAudioClip("Sound/Ate_Phill");
             player._Inventroy.DoUse((UseItem) selectedItem);
             ResetItemList();
         }
+
+        audioSource.Play();
     }
 
     private void OnNavigation(InputValue value)
@@ -142,6 +151,10 @@ public class InventoryUI : BaseUI
 
         if (nowSpin)
             return;
+
+        audioSource.clip = ChangeInventoryAudioClip("Sound/Inventory_Move");
+        if(!audioSource.isPlaying)
+            audioSource.Play();
         Debug.Log(selectedItem.ItemName);
         float rotateFloat = (360 / player._Inventroy.Pocket.Count);
         dir = new Vector3(value.Get<Vector2>().x, 0, value.Get<Vector2>().y);
@@ -186,6 +199,10 @@ public class InventoryUI : BaseUI
         CoroutineStop(naviCoroutine);
     }
 
+    private AudioClip ChangeInventoryAudioClip(string path)
+    {
+        return GameManager.Resource.Load<AudioClip>(path);
+    }
 
     private void CoroutineStop(Coroutine co)
     {
@@ -198,23 +215,30 @@ public class InventoryUI : BaseUI
         numOfChild = Slots_Center.transform.childCount;
         Debug.Log($"디스트로이 전의 Slots_Center의 자식 개체 수: {Slots_Center.transform.childCount}");
 
-        for (int i = 0; i < numOfChild; i++)
+        // 마지막으로 선택한(사용한)아이템의 이름으로 pocket에 해당 아이템이 존재하는지, 확인하여 Slots_Center의 자식 개체들을 초기화 해줌
+
+        if (!player._Inventroy.Pocket.ContainsKey(selectedItem.ItemName))
         {
-            // 사용하고자 한 아이템의 인덱스와 같은 Slots_Center의 자식개체를 Destroy한다.
-            if (i == selectedItemIndex)
+            for (int i = 0; i < numOfChild; i++)
             {
-                GameManager.Resource.Destroy(Slots_Center.transform.GetChild(i).gameObject);
+                // 사용하고자 한 아이템의 인덱스와 같은 Slots_Center의 자식개체를 Destroy한다.
+                if (i == selectedItemIndex)
+                {
+                    GameManager.Resource.Destroy(Slots_Center.transform.GetChild(i).gameObject);
+                }
             }
+
+            itemList.RemoveAt(selectedItemIndex); // 소모형 아이템을 사용했기 때문에 해당 아이템을 제거한다.
+            selectedItemIndex = selectedItemIndex - 1 < 0 ? 0 : selectedItemIndex - 1; // 셀렉티드아이템인덱스 초기화
+            selectedItem = itemList[selectedItemIndex];
+            inventoryResetCoroutine = StartCoroutine(ChildPositionSet());
+
+            float rotateFloat = (360 / player._Inventroy.Pocket.Count);
+            naviCoroutine = StartCoroutine(LookAtRoutine(Quaternion.Euler(new Vector3(0, -1 * selectedItemIndex * rotateFloat, 0))));
         }
-         
-        itemList.RemoveAt(selectedItemIndex); // 소모형 아이템을 사용했기 때문에 해당 아이템을 제거한다.
-        selectedItemIndex = selectedItemIndex - 1 < 0 ? 0 : selectedItemIndex - 1; // 셀렉티드아이템인덱스 초기화
-        selectedItem = itemList[selectedItemIndex];
 
-        inventoryResetCoroutine = StartCoroutine(ChildPositionSet());
 
-        float rotateFloat = (360 / player._Inventroy.Pocket.Count);
-        naviCoroutine = StartCoroutine(LookAtRoutine(Quaternion.Euler(new Vector3(0, -1 * selectedItemIndex * rotateFloat, 0))));
+        SetItemText();
     }
 
     private IEnumerator ChildPositionSet()

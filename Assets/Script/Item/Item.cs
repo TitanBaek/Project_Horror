@@ -12,13 +12,15 @@ public class Item : MonoBehaviour, ICheckable
     [SerializeField] protected string description;
     [SerializeField] protected GameObject slot;
     [SerializeField] protected GameObject render;
-    protected int itemEA = 1;
+    [SerializeField] protected GameObject uirender;
+    [SerializeField] protected int itemEA = 1;
     public ItemCategory Category { get { return category; } }
     public int ItemEA { get { return itemEA; } set { itemEA = value; } }    
     public string ItemName { get { return itemName; } set { itemName = value; } }
     public string Description { get { return description; } set { description = value; } }
     public GameObject Slot {  get { return slot; } set {  slot = value; } }
     public GameObject Render { get { return render; } set {  render = value; } }
+    public GameObject UIRender { get { return uirender; } set { uirender = value; } }
 
     private void Awake()
     {

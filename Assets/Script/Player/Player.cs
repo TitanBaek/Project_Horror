@@ -70,6 +70,9 @@ public class Player : PlayerAudio, IHitable
 
         //¿þÆ÷È¦´õ
         weaponHolder = GameObject.FindGameObjectWithTag("WeaponPos");
+
+        Item booze = GameManager.Resource.Load<Item>("Item/Booze");
+        inventory.Pocket.Add(booze.ItemName,booze);
     }
     public void Test()
     {

@@ -10,6 +10,8 @@ public class PlayerInteract : MonoBehaviour
     [SerializeField] Transform point;
     [SerializeField] float range;
     [SerializeField] float angle;
+
+    private float delayTimer = 0;
     public void Interact()
     {
         Collider[] colliders = Physics.OverlapSphere(point.position, range);
@@ -28,7 +30,6 @@ public class PlayerInteract : MonoBehaviour
 
     private void OnCheck(InputValue value)
     {
-        Debug.Log("체크 눌림");
-        Interact();
+            Interact();
     }
 }
