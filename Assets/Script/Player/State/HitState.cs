@@ -48,7 +48,6 @@ namespace PlayerState
             int index = Random.Range(0, owner.HitPoints.Length);
             owner.TakeHit(15);
             PlayHitSound();
-            Debug.Log("사운드가 재생되었다...");
             yield return new WaitForSeconds(0.3f);
             SwitchParticle(index);
             yield return new WaitForSeconds(0.3f);
@@ -59,7 +58,6 @@ namespace PlayerState
             Debug.Log("셋불해주세요");
             owner.StartMoving();
             yield return new WaitForSeconds(0.3f);
-            Debug.Log("피니시드 트루로 해주세요");
             hit_Finished = true;
         }
 
@@ -74,6 +72,7 @@ namespace PlayerState
 
         public void SwitchParticle(int index) // 히트 상태에서 실행되게
         {
+            // 파티클이 활성화 되어있는지 확인하여 on off 하는 조건문
             if (owner.HitPoints[index].activeSelf)
             {
                 owner.HitPoints[index].SetActive(false);

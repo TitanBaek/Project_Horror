@@ -10,12 +10,14 @@ public class GameManager : MonoBehaviour
     private static UIManager uiManager;
     private static SceneManager sceneManager;
     private static Inventory inventory;
+    private static DialogManager dialogManager;
 
     public static GameManager Instance { get { return instance; } }
     public static PoolManager Pool { get { return poolManager; } }
     public static ResourceManager Resource { get { return resourceManager; } }
     public static UIManager UI { get { return uiManager; } }
     public static Inventory Inventory { get { return inventory; } set { inventory = value; } }
+    public static DialogManager Dialog { get { return dialogManager; } set { dialogManager = value; } }
 
     public static bool isStop = false;
 
@@ -68,6 +70,10 @@ public class GameManager : MonoBehaviour
         sceneObj.transform.parent = transform;
         sceneManager = sceneObj.AddComponent<SceneManager>();
 
+        GameObject dialogObj = new GameObject();
+        dialogObj.name = "DialogManager";
+        dialogObj.transform.parent = transform;
+        dialogManager = dialogObj.AddComponent<DialogManager>();
     }
 
 }

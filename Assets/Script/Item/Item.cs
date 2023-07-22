@@ -31,7 +31,6 @@ public class Item : MonoBehaviour, ICheckable
         Init();
         Debug.Log("Ω√¿€");
         Debug.Log("≥°");
-
     }
 
     public void Init()

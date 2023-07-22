@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using PlayerState;
+using UnityEngine.InputSystem;
 
 public enum P_State { Idle , Chase , Hit , Die , Size };
 public enum P_Health_State { Normal, Hurts, Deadly, Size};
@@ -213,4 +214,5 @@ public class Player : PlayerAudio, IHitable
             //보조무기에 대한 트랜스폼을 가진 변수를 이용해서 SetParent해줘야함
         }
     }
+
 }

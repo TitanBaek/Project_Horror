@@ -113,6 +113,7 @@ public class PlayerMove : PlayerAudio
             Debug.Log(isWalking);
         }
     }
+
     private void OnMove(InputValue value)
     {
         moveDir = new Vector3(value.Get<Vector2>().x,0,value.Get<Vector2>().y);

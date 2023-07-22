@@ -13,6 +13,7 @@ public class BaseUI : MonoBehaviour
     {
         BindChild();
     }
+
     private void BindChild()
     {
         transforms = new Dictionary<string, RectTransform>();

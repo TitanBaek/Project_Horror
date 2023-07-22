@@ -14,6 +14,7 @@ public class TownScene : BaseScene
         GameManager.UI.Init();
         GameManager.UI.ShowHurtScreen<HurtScreenUI>("UI/HurtScreenUI");
         items = GameObject.FindGameObjectsWithTag("Item");
+        GameManager.Dialog.Init();
     }
 
     protected override IEnumerator LoadingRoutine()
