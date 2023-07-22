@@ -133,6 +133,9 @@ public class Player : PlayerAudio, IHitable
         {
         }
         Debug.Log($"Player HP: {curHp}/{maxHp}");
+        Debug.Log($"Player HP: {curHp}/{maxHp}");
+        Debug.Log($"Player HP: {curHp}/{maxHp}");
+        Debug.Log($"Player HP: {curHp}/{maxHp}");
         CurrentHp();
     }
     public void TakeHit(RaycastHit hit, int dmg) // 히트 상태에서 실행되게

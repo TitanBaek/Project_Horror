@@ -46,13 +46,14 @@ namespace PlayerState
         public IEnumerator Hit() // 히트 상태에서 실행되게
         {
             int index = Random.Range(0, owner.HitPoints.Length);
+            owner.TakeHit(15);
             PlayHitSound();
             Debug.Log("사운드가 재생되었다...");
             yield return new WaitForSeconds(0.3f);
             SwitchParticle(index);
             yield return new WaitForSeconds(0.3f);
             owner.Anim.SetTrigger("Hit");
-            CameraShake.Instance.ShakeCamera(3f, .5f);
+            CameraShake.Instance.ShakeCamera(3f, 0.5f);
             yield return new WaitForSeconds(0.15f);
             SwitchParticle(index);
             Debug.Log("셋불해주세요");
@@ -60,7 +61,6 @@ namespace PlayerState
             yield return new WaitForSeconds(0.3f);
             Debug.Log("피니시드 트루로 해주세요");
             hit_Finished = true;
-            owner.TakeHit(15);
         }
 
         public void PlayHitSound() // 히트 상태에서 실행되게
@@ -71,6 +71,7 @@ namespace PlayerState
                 owner.AudioSources[2].Play();
             }
         }
+
         public void SwitchParticle(int index) // 히트 상태에서 실행되게
         {
             if (owner.HitPoints[index].activeSelf)

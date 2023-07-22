@@ -18,8 +18,6 @@ namespace MonsterState
 
         public override void Enter()
         {
-            Debug.Log("추적 시작");
-            //owner.Player_State.SpottedByEnemy(); // 플레이어 추격중으로 상태 변경
             owner.PlayerScreamSound(1);
             owner.SwitchStepSounds(1);  // 1을 보내서 뛰는 소리가 재생되게
             owner.Agent.speed = 0f;
@@ -29,7 +27,7 @@ namespace MonsterState
 
         public override void Update()
         {
-
+            //Debug.Log($"X {owner.PlayerPos.position.x} Y {owner.PlayerPos.position.y} Z {owner.PlayerPos.position.z}");
             owner.Agent.destination = owner.PlayerPos.position;
             if (Vector3.Distance(owner.PlayerPos.position, owner.transform.position) > owner.ChaseRange)        // 플레이어가 ChaseRange에서 벗어나면 Return(Patrol로 해도 될듯..)으로 상태 변경
             {

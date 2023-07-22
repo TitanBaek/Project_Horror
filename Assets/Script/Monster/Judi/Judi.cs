@@ -5,11 +5,14 @@ using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.UI.GridLayoutGroup;
 using MonsterState;
+using TMPro;
 
 public enum M_State { Chase, Return, Attack, Patrol, Hit, Die, Size }
 public enum M_SubState { Idle ,Hit, Size }
 public class Judi : Monster,IHitable
 {
+    [SerializeField] TMP_Text stateText;
+
     private Judi_Eyes eyes;
     public Judi_Eyes Eyes { get { return eyes; } set { eyes = value; } }
 
@@ -111,6 +114,7 @@ public class Judi : Monster,IHitable
 
     public void ChangeState(M_State state)
     {
+        stateText.text = state.ToString();
         if (IsDead())
             return;
         states[(int)curState].Exit();

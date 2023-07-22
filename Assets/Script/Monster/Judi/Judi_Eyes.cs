@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Judi_Eyes : MonoBehaviour
 {
-    private Judi judi;
+    [SerializeField] private Judi judi;
     // 몬스터 시야구현
     [SerializeField] float range;
     [SerializeField, Range(0f, 360f)] float angle;
@@ -14,13 +14,13 @@ public class Judi_Eyes : MonoBehaviour
 
     private void Awake()
     {        
-        judi = GetComponentInParent<Judi>();
         cosResult = Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad);
     }
 
     private void Update()
     {
         if (judi.CurState != M_State.Chase && judi.CurState != M_State.Attack)
+        //if (judi.CurState != M_State.Chase)
         {
             FindTarget();
         }
