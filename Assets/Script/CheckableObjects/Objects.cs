@@ -6,17 +6,16 @@ public class Objects : MonoBehaviour,ICheckable
 { 
     [SerializeField] string[] scripts;
     bool nowOpen = false;
+    public bool NowOpen { get { return nowOpen; }  set { nowOpen = value; } }
 
     public virtual void Check()
     {
         if (!nowOpen)
         {
-            GameManager.Dialog.ShowDialog(scripts[0]);
+            GameManager.Dialog.SetDialogScripts(this, scripts);
             nowOpen = true;
-        } else
-        {
-            GameManager.Dialog.HideDialog();
-            nowOpen = false;
         }
+
+        GameManager.Dialog.TabDialogKey();
     }
 }
