@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Objects : MonoBehaviour, ICheckable
+public class DialogObjects : MonoBehaviour, ICheckable
 { 
     [SerializeField] string[] scripts;
     bool nowOpen;

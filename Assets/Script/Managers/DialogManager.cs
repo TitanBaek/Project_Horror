@@ -11,7 +11,7 @@ public class DialogManager : MonoBehaviour
     private Queue<string> dialogQueue;
     private TMP_Text dialog_TextField;
     private Coroutine textCoroutine;
-    private Objects haveDialogObject;
+    private DialogObjects haveDialogObject;
 
     private void Start()
     {
@@ -31,7 +31,7 @@ public class DialogManager : MonoBehaviour
         dialog_TextField.text = "";
     }
 
-    public void SetDialogScripts(Objects objects,string[] scripts)
+    public void SetDialogScripts(DialogObjects objects,string[] scripts)
     {
         haveDialogObject = objects;
         dialogScripts = scripts;                        // 매개변수의 문자열 배열 dialogScripts에 넣어줌

@@ -7,15 +7,15 @@ public class Door : MonoBehaviour, ICheckable
     [SerializeField] bool needKey;
     [SerializeField] HospitalKey keyItem;
     Coroutine dialogCheckCoroutine;
-    Objects dialogObject;
+    DialogObjects dialogObject;
     bool nowOpen = false;
     public bool NowOpen { get { return nowOpen; } set { nowOpen = value; } }
 
     private void Awake()
     {
-        if(gameObject.GetComponent<Objects>() != null)
+        if(gameObject.GetComponent<DialogObjects>() != null)
         {
-            dialogObject = gameObject.GetComponent<Objects>();
+            dialogObject = gameObject.GetComponent<DialogObjects>();
             dialogObject.enabled = false;
         }
     }
