@@ -1,19 +1,21 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "dialogScript")]
+[CreateAssetMenu(fileName = "DialogScript", menuName = "Data/Dialogue")]
 
-
-public class DialogScript : ScriptableObject
+public class DialogueData : ScriptableObject
 {
-    public string[] myCar = new string[]
-    {   "내가 타고 온 차, 심하게 파손되어있다.",
-        "신기하게도 난 다치지 않았다."};
+    [SerializeField] DialogueInfo[] dialogue;
+    public DialogueInfo[] Dialogue { get { return dialogue; } }
 
-    public string[] abandonRadio = new string[]
+
+    [Serializable]
+    public class DialogueInfo
     {
-        "라디오에서 이상한 잡음이 계속해서 들린다."
-    };
+        public string name;
 
+        public string[] script;
+    }
 }

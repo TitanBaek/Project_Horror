@@ -15,13 +15,11 @@ public class Button : MonoBehaviour, IPointerExitHandler, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("마우스엔터");
         text.color = Color.red;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("마우스엑시트");
         text.color = Color.white;
     }
 

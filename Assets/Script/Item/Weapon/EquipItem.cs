@@ -33,6 +33,5 @@ public class EquipItem : Item
     }
     public virtual void Attack()
     {
-        Debug.Log("°ø°ÝÇÔ");
     }
 }

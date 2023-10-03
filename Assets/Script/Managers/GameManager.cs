@@ -5,19 +5,23 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
+    private static DataManager dataManager;
     private static PoolManager poolManager;
     private static ResourceManager resourceManager;
     private static UIManager uiManager;
     private static SceneManager sceneManager;
     private static Inventory inventory;
     private static DialogManager dialogManager;
+    private static SoundManager soundManager;
 
     public static GameManager Instance { get { return instance; } }
+    public static DataManager Data { get { return dataManager; } }
     public static PoolManager Pool { get { return poolManager; } }
     public static ResourceManager Resource { get { return resourceManager; } }
     public static UIManager UI { get { return uiManager; } }
     public static Inventory Inventory { get { return inventory; } set { inventory = value; } }
     public static DialogManager Dialog { get { return dialogManager; } set { dialogManager = value; } }
+    public static SoundManager Sound { get { return soundManager; } set { soundManager = value; } }
 
     public static bool isStop = false;
 
@@ -74,6 +78,16 @@ public class GameManager : MonoBehaviour
         dialogObj.name = "DialogManager";
         dialogObj.transform.parent = transform;
         dialogManager = dialogObj.AddComponent<DialogManager>();
+
+        GameObject dataObj = new GameObject();
+        dataObj.name = "DataManager";
+        dataObj.transform.parent = transform;
+        dataManager = dataObj.AddComponent<DataManager>();
+
+        GameObject soundObj = new GameObject();
+        soundObj.name = "SoundManager";
+        soundObj.transform.parent = transform;
+        soundManager = soundObj.AddComponent<SoundManager>();
     }
 
 }

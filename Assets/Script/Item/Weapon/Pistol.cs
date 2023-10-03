@@ -11,7 +11,6 @@ public class Pistol : EquipItem, IEquipable
     public override void Attack()
     {
         base.Attack();
-        Debug.Log("그치만 이건 권총이지");
          
         RaycastHit hit;// 맞은것
 

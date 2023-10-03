@@ -217,7 +217,6 @@ public class Judi : Monster,IHitable
             curHp = 0;
             ChangeState(M_State.Die);
         }
-        Debug.Log($"공격 당하고 난 후의 몬스터의 체력 {curHp}/{maxHp}");
         ParticleSystem effect = GameManager.Resource.Instantiate<ParticleSystem>("Effect/MonsterHit", hit.point, Quaternion.LookRotation(hit.normal), true);
         effect.transform.parent = hit.transform.transform;
         GameManager.Resource.Destroy(effect.gameObject, 0.3f);
@@ -231,7 +230,6 @@ public class Judi : Monster,IHitable
             curHp = 0;
             ChangeState(M_State.Die);
         }
-        Debug.Log($"공격 당하고 난 후의 몬스터의 체력 {curHp}/{maxHp}");
     }
 
     public bool IsDead()

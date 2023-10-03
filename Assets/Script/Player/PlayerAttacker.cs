@@ -27,7 +27,6 @@ public class PlayerAttacker : MonoBehaviour
         anim = GetComponent<Animator>();
         audioSource = weaponHolder.GetComponents<AudioSource>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        
     }
 
     public void Fire()
@@ -49,12 +48,13 @@ public class PlayerAttacker : MonoBehaviour
             return;
         if (reloading)  // 장전중일 땐 공격이 안된다.
             return;
-
         Fire();
     }
 
     private void OnReload(InputValue value)
     {
+        if (reloading)
+            return;
         StartCoroutine(ReloadRoutine());
     }
 

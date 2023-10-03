@@ -27,28 +27,12 @@ public class InventoryUI : BaseUI
     Coroutine naviCoroutine;
     Coroutine inventoryResetCoroutine;
 
-    /*
-     * 딕셔너리 하나 더 만들어..?
-     * <Item,Bool> 로 해서 .. 
-     * ㄴㄴ 리스트로 만들어야해 ..
-     */
-    private void Awake()
+    protected override void Awake()
     {
        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
        audioSource = GetComponent<AudioSource>();
        nowSpin = false;
        selectedItemIndex = 0;
-    }
-
-    private void Start()
-    {
-        Debug.Log("인벤토리UI스크립트");
-        Debug.Log(player.name);
-    }
-
-    public void SetSelectedItem(Item item)
-    {
-        Debug.Log($"아이템 선택 {item.ItemName}");
     }
 
     public void ResetInventory()
@@ -72,7 +56,6 @@ public class InventoryUI : BaseUI
 
     public void SetInventory()
     {
-        Debug.Log("SetInventory");
         bool isFirst = true;
         itemList = new List<Item>();
 
@@ -88,7 +71,6 @@ public class InventoryUI : BaseUI
                 isFirst = false;
             }
             itemList.Add(value);
-            Debug.Log($"SetInventory : {value.ItemName}");
             GameObject insertData;            
             insertData = GameManager.Instantiate<GameObject>(value.Slot, Slots_Center.transform.position, Quaternion.Euler(0, 0, 0));
             SetSlotParent(insertData);
@@ -101,7 +83,6 @@ public class InventoryUI : BaseUI
     {
         Slots_Center.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
         numOfChild = Slots_Center.transform.childCount;
-        Debug.Log($"나우스핀은 {nowSpin} 슬롯츠 센터의 자식 개체의 총 개수는요 : {Slots_Center.transform.childCount} 이고 포켓 내부의 아이템 개수는{player._Inventroy.Pocket.Count} 그리고 지금 셀렉티드 인덱스는{selectedItemIndex}");
         for (int i = 0; i < numOfChild; i++)
         {
             float angle = Mathf.PI * 0.5f - i * (Mathf.PI * 2.0f) / numOfChild;
@@ -125,9 +106,6 @@ public class InventoryUI : BaseUI
     }
 
     private void OnChoose(InputValue value) {
-
-        Debug.Log($"선택된 아이템의 인덱스 {selectedItemIndex}");
-
         if(selectedItem.Category == ItemCategory.Weapon || selectedItem.Category == ItemCategory.subWeapon)
         {  
             audioSource.clip = ChangeInventoryAudioClip("Sound/Do_Equip");
@@ -155,7 +133,6 @@ public class InventoryUI : BaseUI
         audioSource.clip = ChangeInventoryAudioClip("Sound/Inventory_Move");
         if(!audioSource.isPlaying)
             audioSource.Play();
-        Debug.Log(selectedItem.ItemName);
         float rotateFloat = (360 / player._Inventroy.Pocket.Count);
         dir = new Vector3(value.Get<Vector2>().x, 0, value.Get<Vector2>().y);
         if(dir.x > 0)
@@ -172,12 +149,10 @@ public class InventoryUI : BaseUI
                 selectedItemIndex = itemList.Count - 1;
             // 인덱스 바꿔주기
         }
-        Debug.Log($"{itemList.Count} 크기의 리스트에서 현재 인덱스는 {selectedItemIndex} ");
         selectedItem = itemList[selectedItemIndex];
 
         naviCoroutine = StartCoroutine(LookAtRoutine(Quaternion.Euler(new Vector3(0, -1 * selectedItemIndex * rotateFloat, 0))));
         SetItemText();
-
     }
     IEnumerator LookAtRoutine(Quaternion rotatePosition)
     {
@@ -191,7 +166,6 @@ public class InventoryUI : BaseUI
             if (angle <= 0)
             {
                 nowRotate = false;
-                Debug.Log("회전이 끝났다");
             }
             yield return new WaitForSecondsRealtime(0.01f);
         }
@@ -213,8 +187,6 @@ public class InventoryUI : BaseUI
     {
         nowSpin = false;
         numOfChild = Slots_Center.transform.childCount;
-        Debug.Log($"디스트로이 전의 Slots_Center의 자식 개체 수: {Slots_Center.transform.childCount}");
-
         // 마지막으로 선택한(사용한)아이템의 이름으로 pocket에 해당 아이템이 존재하는지, 확인하여 Slots_Center의 자식 개체들을 초기화 해줌
 
         if (!player._Inventroy.Pocket.ContainsKey(selectedItem.ItemName))
@@ -244,7 +216,6 @@ public class InventoryUI : BaseUI
     private IEnumerator ChildPositionSet()
     {
         yield return new WaitForEndOfFrame();
-        Debug.Log($"디스트로이 후의 Slots_Center의 자식 개체 수: {Slots_Center.transform.childCount}");
         SetObjectPosition(); // Slots의 자식개체들 포지션 지정해주는 함수
         yield return new WaitForEndOfFrame();
         StopCoroutine(inventoryResetCoroutine);
@@ -269,7 +240,6 @@ public class InventoryUI : BaseUI
     private void InInventoryReset()
     {
         float rotateFloat = (360 / player._Inventroy.Pocket.Count);
-        Debug.Log($"2. 현재 포켓 내의 아이템 개수는 : {player._Inventroy.Pocket.Count}");
         
         foreach (Item value in player._Inventroy.Pocket.Values)
         {

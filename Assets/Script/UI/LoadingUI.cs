@@ -21,7 +21,6 @@ public class LoadingUI : MonoBehaviour
 
     public void FadeOut()
     {
-        Debug.Log("fadeOut");
         anim.SetBool("Active", false);
     }
 

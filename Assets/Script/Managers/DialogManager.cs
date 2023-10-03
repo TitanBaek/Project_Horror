@@ -92,7 +92,6 @@ public class DialogManager : MonoBehaviour
 
     public IEnumerator playDialog(string msg)
     {
-        Debug.Log("플레이 다이얼로그 코루틴에 들어왔다");
         for (int i = 0; i < msg.Length ; i++)
         {
                 dialog_TextField.text += msg[i];

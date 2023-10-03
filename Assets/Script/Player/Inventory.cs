@@ -15,7 +15,6 @@ public class Inventory : MonoBehaviour
     private Player player;
     private void Awake()
     {
-        Debug.Log("인벤토리 스크립트 어웨이크");
         isOpen = false;
         firstOpen = true;
         inputSystem = GetComponent<PlayerInput>();
@@ -87,10 +86,6 @@ public class Inventory : MonoBehaviour
         return returnData;
     }
 
-    public void Test()
-    {
-        Debug.Log("테스트");
-    }
     public void SetNowEquip(EquipItem item,bool state)
     {
         item.NowEquip = state;
@@ -101,7 +96,6 @@ public class Inventory : MonoBehaviour
         if (pocket.ContainsKey(item.ItemName))
         {   // 이미 해당 아이템이 존재한다면 EA를 증감시켜줌
             pocket[item.ItemName].ItemEA += 1;
-            Debug.Log($"매개변수 {item.ItemEA} / 포켓 {pocket[item.ItemName].ItemEA} 아이템 증감");
         }
         else
         {
@@ -120,7 +114,6 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            Debug.Log($"아이템에 {item.ItemName} 삭제 됨");
             pocket.Remove(item.ItemName);
         }
     }
@@ -142,6 +135,7 @@ public class Inventory : MonoBehaviour
             inventoryUI = GameObject.FindGameObjectWithTag("Inventory");
             firstOpen = false;
         }
+
         ResetInventory();
 
         if (isOpen)
@@ -164,5 +158,13 @@ public class Inventory : MonoBehaviour
         {
             Debug.Log($"{item.ItemName} / {item.ItemEA}EA");
         }
+    }
+
+    public bool HaveItem<T>(T item) where T : Item
+    {
+        if (pocket.ContainsKey(item.ItemName)) { 
+            return true;
+        }
+        return false;
     }
 }

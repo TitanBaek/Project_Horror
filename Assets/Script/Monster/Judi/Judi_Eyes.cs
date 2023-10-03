@@ -43,11 +43,9 @@ public class Judi_Eyes : MonoBehaviour
             if (Physics.Raycast(transform.position, dirTarget, out var hit, distToTarget, obstacleMask))
             {
                 Debug.DrawRay(transform.position, dirTarget * hit.distance, Color.yellow);
-                Debug.Log(hit.collider.gameObject.name);
                 continue;
             }
 
-            Debug.Log("Ã£¾Ò´Ù");
             Debug.DrawRay(transform.position, dirTarget * distToTarget, Color.green);
             judi.ChangeState(M_State.Chase);
         }

@@ -55,7 +55,6 @@ namespace PlayerState
             CameraShake.Instance.ShakeCamera(3f, 0.5f);
             yield return new WaitForSeconds(0.15f);
             SwitchParticle(index);
-            Debug.Log("셋불해주세요");
             owner.StartMoving();
             yield return new WaitForSeconds(0.3f);
             hit_Finished = true;

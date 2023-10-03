@@ -24,7 +24,6 @@ namespace MonsterState
 
         public override void Enter()
         {
-            Debug.Log("스피드 0로");
             prevSpeed = owner.Agent.speed;
             owner.Agent.speed = 0;
             owner.Anim.SetTrigger("Hit");
@@ -51,7 +50,6 @@ namespace MonsterState
             if (hitFinished)
             {
                 owner.Agent.speed = prevSpeed == 0 ? 3.5f : prevSpeed;
-                Debug.Log($"스피드 {owner.Agent.speed}로");
                 owner.ChangeState(M_SubState.Idle);
                 if(owner.CurState != M_State.Chase)
                 {

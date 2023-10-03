@@ -35,15 +35,10 @@ public class SceneManager : MonoBehaviour
 
     IEnumerator LoadingRoutine(string sceneName)
     {
-        Debug.Log("1");
         loadingUI.FadeOut();
-        Debug.Log("2");
         yield return new WaitForSeconds(2f);
-        Debug.Log("3");
         Time.timeScale = 0f;
-        Debug.Log("4");
         AsyncOperation oper = UnitySceneManager.LoadSceneAsync(sceneName); // 백그라운드 로딩(비동기식)
-        Debug.Log("5");
         while (!oper.isDone)
         {
             // 로딩중일때 돌아가는 반복문

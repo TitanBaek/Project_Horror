@@ -49,7 +49,6 @@ namespace MonsterState
                 }
                 else
                 {
-                    Debug.Log("¶§¸²");
                     IHitable hitable = collider.GetComponent<IHitable>();
                     if (Vector3.Dot(owner.transform.forward, dirTarget) > cosResult)
                         owner.Attack_coroutine = owner.StartCoroutine(DoAttackAnimation(hitable));

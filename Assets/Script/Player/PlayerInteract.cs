@@ -16,7 +16,11 @@ public class PlayerInteract : MonoBehaviour
     {
         Collider[] colliders = Physics.OverlapSphere(point.position, range);
         foreach (Collider collider in colliders)
-        {           
+        {
+            Vector3 dirToTarget = (collider.transform.position - transform.position).normalized;
+            if (Vector3.Dot(transform.forward, dirToTarget) < Mathf.Cos(angle * 0.5f * Mathf.Deg2Rad))
+                continue;
+
             ICheckable interact = collider.GetComponent<ICheckable>();
             interact?.Check();
         }
